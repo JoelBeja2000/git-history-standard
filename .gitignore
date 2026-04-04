@@ -1,2 +1,22 @@
+# AI / GHS Indexing
 .ai-index/
 .venv/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+
+# Docker / Infrastructure
+docker-compose.override.yml
+qdrant_data/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Logs and Temps
+logs/
+*.log
+tmp/
