@@ -10,7 +10,7 @@
 
 The core of this standard is the use of **Trigger Tags** in your commit messages. When an AI agent detects these tags, it automatically performs the required documentation tasks:
 
-- **`#ai-history`**: Signals the AI to update the `HISTORY.md` and `README.md` based on recent code changes. The AI will then mark the commit as `[documented]`.
+- **`#ai-history`**: Signals the AI to update the `HISTORY.md` and `README.md` based on recent code changes.
 - **`#ai-bug`**: Signals that the commit contains a bug fix. The AI will automatically log the issue in the **Bug Registry** (`BUGS.md`) to prevent future regressions.
 
 ---
@@ -20,7 +20,8 @@ The core of this standard is the use of **Trigger Tags** in your commit messages
 - **⚡ Instant Context / Contexto Instantáneo**: Optimized for AI agents (Claude, GPT, Gemini) to understand the project's evolution in seconds.
 - **🐛 Bug Registry / Registro de Errores**: Integrated tracking to document solutions and avoid repeating past mistakes.
 - **📂 Incremental Indexing / Indexación Incremental**: Maintains a clean, chronological `HISTORY.md` that serves as a master index for the entire codebase.
-- **🌍 Bilingual Support (Optional) / Soporte Bilingüe (Opcional)**: Easily configurable to maintain all history and documentation in both English and Spanish.
+- **🌍 Bilingual Support (Optional) / Soporte Bilingüe (Opcional)**: Maintains all history and documentation in both English and Spanish.
+- **🧠 Level 2: Semantic Context (Vector RAG)**: Integrated support for codebase indexing and semantic search using ChromaDB.
 
 ---
 
@@ -46,6 +47,28 @@ Once installed, any compatible AI agent will recognize the `git-history` skill a
 - **`.agents/workflows/maintain-history.md`**: The step-by-step procedure for tag detection and documentation syncing.
 - **`HISTORY.md`**: Your project's master index (Commits, Branches, Authors, Milestones).
 - **`BUGS.md`**: Documentation of solved issues and troubleshooting.
+- **`tools/`**: Python scripts for vector indexing (`indexer.py`) and semantic search (`search.py`).
+
+---
+
+## 🛠️ How to Use / Cómo Usar
+
+### 1. Basic Documentation (Human/AI)
+Just include the trigger tags in your commit messages:
+- `git commit -m "Add new feature #ai-history"`
+- `git commit -m "Fix memory leak #ai-bug"`
+
+### 2. Semantic Search (Vector RAG)
+Use the included tools to index and search your codebase:
+
+```bash
+# Setup the environment (creates .venv and installs ChromaDB)
+bash tools/setup.sh
+
+# Search for context (e.g., "how is authentication handled?")
+source .venv/bin/activate
+python3 tools/search.py "autenticación" --collection all
+```
 
 ---
 
