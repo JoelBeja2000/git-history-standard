@@ -79,6 +79,31 @@ python3 tools/indexer.py
 
 ---
 
+## 🏗️ Modo Pro: Integración con Docker y Qdrant
+
+Para proyectos de gran escala o equipos que requieren una base de datos de vectores robusta (similar a la que usan extensiones como **Kilo Pass**), GHS soporta **Qdrant** a través de Docker.
+
+### 1. Levantar el Servidor
+```bash
+# Inicia Qdrant en el puerto 6333
+docker-compose up -d
+```
+
+### 2. Configurar el Proveedor
+En `.agents/skills/git-history/SKILL.md`, cambia el proveedor a `qdrant`:
+```yaml
+vector_store:
+  provider: "qdrant"
+  url: "http://localhost:6333"
+```
+
+### 3. Ventajas del Modo Pro
+- **Persistencia Aislada**: Los datos de vectores se gestionan fuera del código fuente.
+- **Rendimiento**: Búsquedas semánticas optimizadas para miles de archivos.
+- **Compatibilidad**: Listo para integrarse con herramientas que consumen APIs de Qdrant.
+
+---
+
 ## 🆚 ¿Por qué GHS?
 
 A diferencia de estándares como **Conventional Commits**, GHS está diseñado específicamente para la "Colaboración en Vivo" entre humanos e IA:
