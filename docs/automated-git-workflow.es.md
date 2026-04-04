@@ -37,5 +37,16 @@ Si estás trabajando en una rama, pídele a tu IA:
 
 ---
 
+## ⚡ Bonus: Integración con NotebookLM
+Si quieres crear un **NotebookLM** (Google) personalizado con el conocimiento de tu proyecto, hemos incluido una herramienta de exportación:
+
+1. Ejecuta el script: `python3 tools/export_notebooklm.py`
+2. Esto creará el archivo `ghs_context_for_notebooklm.txt`.
+3. Arrastra y suelta ese archivo en el panel de fuentes de NotebookLM.
+
+Ahora puedes chatear con tu proyecto o generar un podcast técnico sobre tu propio código.
+
+---
+
 > [!TIP]
 > **La Lección Clave**: Trata a tu IA como un ingeniero de infraestructura. Ya no necesitas escribir comandos en la terminal. Solo explica el evento que quieres desencadenar (crear repo, guardar trabajo, abrir PR), y deja que el agente se encargue de la sintaxis de Git/GitHub.
