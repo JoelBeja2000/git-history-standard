@@ -108,6 +108,38 @@ Si no pones ninguna etiqueta, el commit se trata de forma normal — GHS no inte
 
 ---
 
+## ⚙️ ¿Quién ejecuta la IA?
+
+Esta es la pregunta clave: pones `#ai-history` en tu commit... ¿y luego qué?
+
+GHS es una **convención**, no un servicio. La IA que ejecuta las tareas depende de tu entorno. Hay 3 modelos:
+
+### 1. Agente integrado en el IDE (Automático)
+Si usas un editor con IA integrada (Cursor, Windsurf, Kilo Code, Antigravity), el agente detecta el `SKILL.md` al abrir el proyecto y responde a los tags en tiempo real. **No tienes que hacer nada extra.**
+
+```
+# Haces tu commit normalmente:
+git commit -m "Migrar pagos a Stripe #ai-history"
+
+# → Tu agente de IDE lee el tag, abre HISTORY.md y lo actualiza.
+```
+
+### 2. Ejecución manual por CLI (Bajo demanda)
+Si usas una IA con acceso a terminal (Claude CLI, GitHub Copilot CLI), simplemente le pides que revise los últimos commits:
+
+```bash
+# Le dices a tu IA:
+"Revisa los commits con #ai-history y actualiza HISTORY.md"
+```
+
+### 3. Automatización CI/CD (Sin humanos)
+Para equipos, puedes configurar un **GitHub Action** que ejecute un script tras cada push a `master`. El script lee los commits nuevos, detecta los tags y actualiza los archivos automáticamente.
+
+> [!NOTE]
+> GHS no impone ninguno de estos modelos. Tú eliges cómo y cuándo se ejecuta la IA según tu flujo de trabajo.
+
+---
+
 ## ⚡ Instalación
 
 ```bash
