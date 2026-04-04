@@ -16,12 +16,21 @@
 ## Full Commit Log / Registro Completo de Commits
 
 ### 2026-04-04
-- **7accc32** [AI] Update README with Vector Context and usage instructions / Actualizar README con contexto vectorial e instrucciones de uso #ai-history
-- **eaeaa75** [AI] Initialize project history and bug registry / Inicializar historial de proyecto y registro de errores #ai-history
-- **4311cec** [AI] Add vector search tools (indexer, search, setup) / Añadir herramientas de búsqueda vectorial #ai-history
-- **195bcee** [AI] Expand GHS with Vectorized History Protocol / Expandir GHS con protocolo de historia vectorizada #ai-history
-- **65f99e0** [AI] Research: Add Vector Context (RAG) documentation and skill support / Investigación: Añadir documentación de contexto vectorial #ai-history
+
+| Commit | Author / Autor | Description / Descripción | Details / Detalles Técnicos |
+| :--- | :--- | :--- | :--- |
+| `7accc32` | @JoelBeja2000 | [AI] Update README with Vector Context | Generalize multi-language support and add RAG docs. |
+| `eaeaa75` | @JoelBeja2000 | [AI] Initialize project history and bugs | Create HISTORY.md and BUGS.md baseline. |
+| `4311cec` | @JoelBeja2000 | [AI] Add vector search tools | Implement indexer.py, search.py, and setup.sh. |
+| `195bcee` | @JoelBeja2000 | [AI] Expand GHS with Vector Protocol | Level 2 indexing for project history. |
+| `65f99e0` | @JoelBeja2000 | [AI] Research: Vector Context docs | Initial documentation for RAG support. |
 
 ### Pre-standardization
-- **7496e9b** Add Universal Compatibility section / Añadir sección de compatibilidad universal
-- **4939b3e** Update README with market comparison / Actualizar README con comparativa de mercado
+
+| Commit | Author / Autor | Description / Descripción | Details / Detalles Técnicos |
+| :--- | :--- | :--- | :--- |
+| `7496e9b` | @JoelBeja2000 | Add Universal Compatibility section | Documentation update for global usage. |
+| `4939b3e` | @JoelBeja2000 | Update README with market comparison | Competitive analysis vs conventional commits. |
+
+---
+*Creado por [Oveja](https://github.com/JoelBeja2000) - Simplificando la colaboración Humano-IA.*

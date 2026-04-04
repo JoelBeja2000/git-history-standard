@@ -9,6 +9,7 @@ config:
     history: "#ai-history"
     bug: "#ai-bug"
     catch_up: "#ai-catchup"
+  include_author: true # Whether to include the Git Author in the history/bug files
   vector_store:
     provider: "qdrant" # Options: "chroma" (local), "qdrant" (server)
     url: "http://localhost:6333"

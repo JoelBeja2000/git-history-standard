@@ -113,12 +113,9 @@ vector_store:
 
 A diferencia de estándares como **Conventional Commits**, GHS está diseñado específicamente para la "Colaboración en Vivo" entre humanos e IA:
 
-| Característica | Estándar GHS | Conventional Commits |
-| :--- | :--- | :--- |
-| **Activador en Tiempo Real** | Sí (#tags) | No (Estructura estática) |
-| **Multi-idioma** | Nativo (Configurable) | Manual / Post-proceso |
-| **Registro de Errores** | Integrado (BUGS.md) | Gestor externo |
-| **Contexto para IA** | Indexación Profesional | Solo basado en Diffs |
+| Commit | Author / Autor | Description / Descripción | Details / Detalles Técnicos |
+| :--- | :--- | :--- | :--- |
+| `7accc32` | @JoelBeja2000 | [AI] Update README with Vector Context | Generalize multi-language support and add RAG docs. |
 
 ---
 
