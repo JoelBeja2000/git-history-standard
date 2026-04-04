@@ -17,6 +17,7 @@ config:
     enabled: true
     path: "assets/screenshots/"
     auto_index: true # Whether to index image alt-text in the vector store
+    analyze_images: true # [COST WARNING] Set to false to prevent the AI from using vision tokens
   vector_store:
     provider: "qdrant" # Options: "chroma" (local), "qdrant" (server)
     url: "http://localhost:6333"

@@ -155,8 +155,12 @@ Activa el soporte en `.agents/skills/git-history/SKILL.md`:
 screenshots:
   enabled: true
   path: "assets/screenshots/"
-  auto_index: true # Indexa el texto alternativo para búsqueda semántica
+  auto_index: true     # Indexa el texto alternativo para búsqueda semántica
+  analyze_images: true # Obliga a la IA a analizar visualmente la imagen
 ```
+
+> [!TIP]
+> **Optimización de Tokens**: Si quieres ahorrar costes, puedes poner `analyze_images: false`. La IA seguirá sabiendo que existe una imagen (gracias al índice vectorial), pero no la "abrirá" a menos que tú se lo pidas explícitamente.
 
 ### 2. Cómo usarlo
 Cuando realices un cambio visual, añade la captura a la carpeta configurada y menciónala en el `HISTORY.md`:
