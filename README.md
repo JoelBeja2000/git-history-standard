@@ -49,6 +49,19 @@ Once installed, any compatible AI agent will recognize the `git-history` skill a
 
 ---
 
+## 🆚 Why GHS? / ¿Por qué GHS?
+
+While industry standards like **Conventional Commits** exist for structuring messages, GHS goes further by optimizing the "Live Collaboration" between Humans and AI:
+
+| Feature / Característica | GHS Standard | Conventional Commits |
+| :--- | :--- | :--- |
+| **Real-time Trigger** | Yes (#tags) | No (Static structure) |
+| **Bilingual Support** | Proactive (EN/ES) | Manual/Post-process |
+| **Bug Registry** | Integrated (BUGS.md) | External task manager |
+| **AI Context** | Professional Indexing | Diff-based only |
+
+---
+
 ## 📄 License / Licencia
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
