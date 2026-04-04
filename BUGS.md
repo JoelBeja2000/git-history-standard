@@ -1,5 +1,7 @@
 # Bug Registry / Registro de Errores
 
-| ID | Author / Autor | Description / Descripción | Origin / Origen | Status / Estado | Date / Fecha |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| - | - | No active bugs reported. | - | - | 2026-04-04 |
+## Active Bugs / Errores Activos
+
+| Bug ID | Author / Autor | Description / Descripción | Fix Details / Detalles de Solución |
+| :--- | :--- | :--- | :--- |
+| `demo` | @author | [Demo] Example bug entry | [Demo] Issue resolved by reading the GHS documentation. |
