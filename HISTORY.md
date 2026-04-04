@@ -1,4 +1,4 @@
-# Project History - git-history-standard
+# Project History / Historial de Proyecto
 
 ## Execution Summary / Resumen de Ejecución
 - **Status**: Standardized / Estandarizado

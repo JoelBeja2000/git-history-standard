@@ -1,6 +1,6 @@
 ---
 name: git-history
-description: Maintain a bilingual (EN/ES) project history, branch index, and bug registry.
+description: Maintain a project history, branch index, and bug registry in the user's preferred language(s).
 ---
 
 # Git History Management Skill
@@ -9,7 +9,7 @@ This skill enables the agent to maintain a high-quality, professional history fo
 
 ## Core Responsibilities
 1.  **Chronological Indexing**: Maintain a `HISTORY.md` file that captures every major milestone, branch evolution, and **Author/Actor identity (AI vs Human)**.
-2.  **Bilingual Communication**: All documentation and commit messages must be provided in both English and Spanish (EN/ES).
+2.  **Multi-language Support**: All documentation and commit messages must be provided in the user's preferred language(s) (e.g., English, Spanish, French, etc.).
 3.  **Visual Documentation**: Integrate and caption screenshots in the `README.md` and `HISTORY.md`.
 4.  **Issue Tracking**: Maintain a `BUGS.md` or a "Bug Registry" section to prevent regressions.
 5.  **Semantic Context (Vector RAG)**: (Level 2) Support codebase indexing using vector databases to provide instant semantic search.

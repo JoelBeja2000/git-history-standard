@@ -1,8 +1,4 @@
-# 📜 Git History Standard (GHS) / Estándar de Historia de Git
-
-**[EN]** The **Git History Standard (GHS)** is a powerful documentation framework designed to automate project indexing and optimize AI-agent collaboration. By using structured `.agents` skills and workflows, it allows developers to trigger professional documentation directly from their Git commit messages.
-
-**[ES]** El **Estándar de Historia de Git (GHS)** es un potente marco de trabajo de documentación diseñado para automatizar la indexación de proyectos y optimizar la colaboración con agentes de IA. Mediante el uso de habilidades y flujos de trabajo estructurados en la carpeta `.agents`, permite a los desarrolladores activar la documentación profesional directamente desde sus mensajes de commit de Git.
+The **Git History Standard (GHS)** is a universal documentation framework designed to automate project indexing and optimize AI-agent collaboration. It is **language-agnostic** and adapts to the user's preferred language(s) (English, Spanish, etc.), allowing developers to trigger professional documentation directly from their Git commit messages.
 
 ---
 
@@ -20,7 +16,7 @@ The core of this standard is the use of **Trigger Tags** in your commit messages
 - **⚡ Instant Context / Contexto Instantáneo**: Optimized for AI agents (Claude, GPT, Gemini) to understand the project's evolution in seconds.
 - **🐛 Bug Registry / Registro de Errores**: Integrated tracking to document solutions and avoid repeating past mistakes.
 - **📂 Incremental Indexing / Indexación Incremental**: Maintains a clean, chronological `HISTORY.md` that serves as a master index for the entire codebase.
-- **🌍 Bilingual Support (Optional) / Soporte Bilingüe (Opcional)**: Maintains all history and documentation in both English and Spanish.
+- **🌍 Multi-language Support / Soporte Multi-idioma**: Adapts to any language or combination of languages (English, Spanish, French, etc.) preferred by the user.
 - **🧠 Level 2: Semantic Context (Vector RAG)**: Integrated support for codebase indexing and semantic search using ChromaDB.
 
 ---
@@ -79,7 +75,7 @@ While industry standards like **Conventional Commits** exist for structuring mes
 | Feature / Característica | GHS Standard | Conventional Commits |
 | :--- | :--- | :--- |
 | **Real-time Trigger** | Yes (#tags) | No (Static structure) |
-| **Bilingual Support** | Proactive (EN/ES) | Manual/Post-process |
+| **Multi-language** | Native support | Manual/Post-process |
 | **Bug Registry** | Integrated (BUGS.md) | External task manager |
 | **AI Context** | Professional Indexing | Diff-based only |
 
