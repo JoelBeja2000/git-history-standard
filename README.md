@@ -1,4 +1,5 @@
 # 📜 Git History Standard (GHS)
+### by Oveja 🐑
 
 El **Git History Standard (GHS)** es una convención de documentación + un conjunto de scripts que automatizan el historial de tu proyecto para que cualquier agente de IA lo entienda al instante.
 
