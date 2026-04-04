@@ -8,6 +8,7 @@ config:
   ai_tags:
     history: "#ai-history"
     bug: "#ai-bug"
+    catch_up: "#ai-catchup"
   vector_store:
     provider: "qdrant" # Options: "chroma" (local), "qdrant" (server)
     url: "http://localhost:6333"

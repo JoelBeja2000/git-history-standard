@@ -11,6 +11,11 @@ El núcleo de este estándar es el uso de **Etiquetas de Activación (Trigger Ta
 - **`#ai-history`**: Indica a la IA que actualice el historial del proyecto (`HISTORY.md`) basándose en los últimos cambios de código.
 - **`#ai-bug`**: Indica que el commit contiene la corrección de un error. La IA registrará automáticamente el problema en el **Registro de Errores** (`BUGS.md`) para evitar regresiones futuras.
 
+> [!IMPORTANT]
+> ### 🔄 Modo "Catch up" (Ponerse al día)
+> ¿Has olvidado poner etiquetas en tus últimos commits? No te preocupes. 
+> Usa la etiqueta **`#ai-catchup`** (configurable) para que la IA escanee todos los commits no documentados desde la última entrada del historial y genere un resumen profesional de golpe. ¡Es la red de seguridad del estándar GHS!
+
 ---
 
 ## 🚀 Características Clave
