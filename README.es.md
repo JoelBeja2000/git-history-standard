@@ -109,6 +109,9 @@ El núcleo del estándar son **Etiquetas de Activación** en tus mensajes de com
 
 Si no pones ninguna etiqueta, el commit se trata de forma normal — GHS no interfiere.
 
+> [!TIP]
+> **Conciencia de Ramas**: El estándar obliga a los agentes de IA a verificar tu rama de Git actual antes de cualquier actualización. Esto asegura que el "Mapa de Ramas" en `HISTORY.md` sea siempre preciso y evita documentar cambios en el entorno equivocado.
+
 ---
 
 ## ⚙️ ¿Quién ejecuta la IA?

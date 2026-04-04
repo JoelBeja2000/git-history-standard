@@ -109,6 +109,9 @@ The core of the standard is **Trigger Tags** in your commit messages:
 
 If you don't add any tag, the commit is treated normally — GHS doesn't interfere.
 
+> [!TIP]
+> **Branch Awareness**: The standard requires AI agents to verify your current Git branch before any update. This ensures that the "Branch Map" in `HISTORY.md` is always accurate and prevents documenting changes in the wrong environment.
+
 ---
 
 ## ⚙️ Who Executes the AI?
