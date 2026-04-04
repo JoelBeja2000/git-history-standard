@@ -62,6 +62,18 @@ While industry standards like **Conventional Commits** exist for structuring mes
 
 ---
 
+## 🖥️ Universal Compatibility / Compatibilidad Universal
+
+GHS works with **ANY** Git client because it relies on standard Git metadata. You can use your favorite visual manager:
+
+- **SourceTree / GitKraken / Tower**: Just type the tag (e.g., `#ai-history`) in the commit comment field.
+- **VS Code / IntelliJ**: Works directly from the built-in Git integration.
+- **GitHub Desktop / Terminal**: Fully supported.
+
+**Why it works?** The AI agent doesn't care *how* the commit was made; it only cares about the **content** of the message in the `git log`.
+
+---
+
 ## 📄 License / Licencia
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
