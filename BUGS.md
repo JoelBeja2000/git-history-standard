@@ -1,7 +1,7 @@
-# Bug Registry / Registro de Errores
+# Bug Registry
 
-## Active Bugs / Errores Activos
+## Active Bugs
 
-| Bug ID | Author / Autor | Description / Descripción | Fix Details / Detalles de Solución |
+| Bug ID | Author | Description | Fix Details |
 | :--- | :--- | :--- | :--- |
 | `demo` | @author | [Demo] Example bug entry | [Demo] Issue resolved by reading the GHS documentation. |

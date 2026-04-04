@@ -1,8 +1,8 @@
 ---
 name: git-history
-description: Maintain a project history, branch index, and bug registry in the user's preferred language(s).
+description: Maintain a project history, branch index, and bug registry.
 config:
-  languages: ["en", "es"]
+  languages: ["en"]
   history_file: "HISTORY.md"
   bug_file: "BUGS.md"
   ai_tags:

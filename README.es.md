@@ -77,7 +77,7 @@ Tu IA no sabe qué bug se arregló, por qué se refactorizó auth, ni qué signi
 
 **Con GHS** — La IA no solo lee una tabla estructurada: la *consulta semánticamente.*
 
-| Commit | Autor | Descripción | Detalles Técnicos |
+| Commit | Author | Description | Technical Details |
 | :--- | :--- | :--- | :--- |
 | `7accc32` | @dev1 | Migrar pagos a Stripe | Reemplazar PayPal SDK por Stripe.js v3. Cambiar webhook endpoint. |
 | `eaeaa75` | @dev2 | Fix: Redondeo en facturas | Error de precisión float en `invoice.py:L45`. Aplicar `Decimal`. |
@@ -235,7 +235,7 @@ GHS permite adjuntar capturas de pantalla a los commits para que los revisores v
 1. Guarda tu captura en `assets/screenshots/` (o la carpeta que configures).
 2. Referénciala en la columna "Capturas" de `HISTORY.md`:
 
-| Commit | Autor | Descripción | Screenshots |
+| Commit | Author | Description | Screenshots |
 | :--- | :--- | :--- | :--- |
 | `fe30d72` | @dev1 | Rediseño de la Sidebar | ![Sidebar v2](assets/screenshots/sidebar_v2.png) |
 

@@ -1,19 +1,19 @@
-# Project History / Historial de Proyecto
+# Project History
 
-## Execution Summary / Resumen de Ejecución
-- **Status**: Initialization / Inicialización
-- **Last Milestone**: Repository Setup / Configuración de Repositorio
+## Execution Summary
+- **Status**: Initialization
+- **Last Milestone**: Repository Setup
 - **Current Version**: 0.0.1
 
 ---
 
-## Branch Map / Mapa de Ramas
-- `master`: Main production-ready branch / Rama principal.
+## Branch Map
+- `master`: Main production-ready branch.
 
 ---
 
-## Full Commit Log / Registro Completo de Commits
+## Full Commit Log
 
-| Commit | Author / Autor | Description / Descripción | Screenshots / Capturas | Details / Detalles Técnicos |
+| Commit | Author | Description | Screenshots | Technical Details |
 | :--- | :--- | :--- | :--- | :--- |
 | `0000000` | @author | [AI] Initializing GHS Template | - | Start of the project using Git History Standard. |

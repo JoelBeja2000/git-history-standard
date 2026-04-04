@@ -27,7 +27,7 @@ def compute_hash(content):
 def load_ghs_config(project_path):
     skill_path = os.path.join(project_path, '.agents/skills/git-history/SKILL.md')
     default_config = {
-        "languages": ["en", "es"],
+        "languages": ["en"],
         "history_file": "HISTORY.md",
         "bug_file": "BUGS.md",
         "ai_tags": {"history": "#ai-history", "bug": "#ai-bug"},
