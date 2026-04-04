@@ -242,7 +242,8 @@ GHS te permite guardar la historia visual de tu proyecto donde tú quieras:
 3. **Búsqueda Semántica**: Nuestro `indexer.py` escanea tu historial en busca de imágenes Markdown (`![alt](ruta)`). El `alt-text` se indexa en tu base de datos de vectores (Chroma/Qdrant), haciendo que tus cambios visuales se puedan buscar por su descripción.
 
 
-#### 🔗 Conexión con BBDD Externas (Rust, SQL, Cloud)
-Si tus imágenes están en una base de datos externa (ej. una BBDD gestionada por Rust o un bucket S3), aún puedes usar GHS:
-- **Referencia por ID**: En lugar de una ruta local, usa una URI personalizada como `![Alt](db://image_id)`.
-- **Puentes (Bridges)**: Puedes añadir un pequeño script en `tools/` que sirva de puente entre la IA y tu BBDD externa. Solo tienes que actualizar el `SKILL.md` para decirle a la IA cómo invocar ese script.
+#### 🔗 Soporte Universal de BBDD y APIs (Diseño Agnóstico)
+GHS es un **protocolo universal**. Puedes enlazar **cualquier base de datos** (PostgreSQL, MongoDB, Redis, BBDD personalizadas en Rust/Go/C++, o buckets en la nube):
+- **Referencias Universales**: Usa URIs personalizadas en tu `HISTORY.md` como `![Alt](mi-db://id_de_imagen)` o `![Capture](https://api.tu-app.com/v1/storage/123)`.
+- **Puentes (Bridges)**: Si tu BBDD es privada, crea un pequeño script "puente" en `tools/`. La IA detectará las reglas en `SKILL.md` y sabrá cómo consultar ese puente para recuperar o subir información.
+- **Independencia Total**: GHS no depende de dónde guardes los datos, solo de cómo los etiquetas.

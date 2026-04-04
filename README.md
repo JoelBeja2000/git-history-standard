@@ -242,7 +242,8 @@ GHS allows you to store your project's visual history anywhere:
 3. **Semantic Discovery**: Our `indexer.py` scans your history for Markdown images (`![alt](path)`). The `alt-text` is indexed into your vector database (Chroma/Qdrant), making your UI changes searchable by description.
 
 
-#### 🔗 Connecting External Databases (Rust, SQL, Cloud)
-If your images are stored in an external database (e.g., a Rust-managed DB or an S3 bucket), you can still use GHS:
-- **Reference by ID**: Instead of a local path, use a custom URI like `![Alt](db://image_id)`.
-- **Custom Bridges**: You can add a small Python or Shell script in `tools/` that acts as a bridge between the AI and your external DB. Update your `SKILL.md` to tell the AI how to use this bridge.
+#### 🔗 Universal Database & API Support (Agnostic Design)
+GHS is a **universal protocol**. You can link **any database** (PostgreSQL, MongoDB, Redis, custom DBs in Rust/Go/C++, or cloud buckets):
+- **Universal References**: Use custom URIs in your `HISTORY.md` like `![Alt](my-db://image_id)` or `![Capture](https://api.your-app.com/v1/storage/123)`.
+- **Custom Bridges**: If your DB is private, create a small "bridge" script in `tools/`. The AI will follow the rules in `SKILL.md` and know how to query that bridge to retrieve or upload information.
+- **Total Independence**: GHS doesn't care where you store your data, only how you label it.
