@@ -10,6 +10,9 @@ config:
     bug: "#ai-bug"
     catch_up: "#ai-catchup"
   include_author: true # Whether to include the Git Author in the history/bug files
+  security:
+    share_index: false # [IMPORTANT] Set to true ONLY for private repos if you want to share the vector cache
+    share_env: false   # [CRITICAL] NEVER set to true unless you are in a local, air-gapped environment
   vector_store:
     provider: "qdrant" # Options: "chroma" (local), "qdrant" (server)
     url: "http://localhost:6333"

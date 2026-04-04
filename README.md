@@ -125,18 +125,23 @@ GHS funciona con **CUALQUIER** cliente de Git porque se basa en metadatos están
 
 ---
 
-## 🔒 Seguridad y Privacidad
+## 🔒 Seguridad y Privacidad (Configurable)
 
-El uso de herramientas de IA y bases de datos vectoriales requiere precaución:
+El uso de herramientas de IA y bases de datos vectoriales requiere precaución. GHS te permite configurar qué quieres compartir en el archivo `.agents/skills/git-history/SKILL.md`:
 
-> [!CAUTION]
-> **NUNCA subas la carpeta `.ai-index/` a un repositorio público.**
-> Contiene fragmentos de tu código y de tu historial en texto plano. El estándar incluye un `.gitignore` para evitar esto automáticamente.
+```yaml
+security:
+  share_index: false # Controla si se debe subir el índice (.ai-index/)
+  share_env: false   # Controla si se deben subir secretos (.env)
+```
 
-### Protecciones de GHS
-- **`.ai-index/`**: Excluido (Base de datos local).
-- **`.env`**: Excluido (Claves de API).
-- **`.venv/`**: Excluido (Entorno de Python).
+> [!IMPORTANT]
+> **Por defecto, todo lo sensible está BLOQUEADO en el `.gitignore`.** 
+> Si decides cambiar estos valores a `true` en la configuración para compartirlos en un repositorio PRIVADO de equipo, recuerda que debes eliminar manualmente las líneas correspondientes del archivo `.gitignore` de la raíz.
+
+### ¿Por qué es importante?
+- **`.ai-index/`**: Contiene fragmentos de tu código en texto plano dentro de la base de datos de vectores. **Subirlo a un repo público es un riesgo de seguridad.**
+- **`.env`**: Contiene tus API Keys. **Subirlo es entregar las llaves de tu cuenta de IA a cualquiera.**
 
 ---
 
