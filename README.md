@@ -1,101 +1,106 @@
-The **Git History Standard (GHS)** is a universal documentation framework designed to automate project indexing and optimize AI-agent collaboration. It is **language-agnostic** and adapts to the user's preferred language(s) (English, Spanish, etc.), allowing developers to trigger professional documentation directly from their Git commit messages.
+# 📜 Git History Standard (GHS) / Estándar de Historia de Git
+
+El **Estándar de Historia de Git (GHS)** es un marco de trabajo de documentación universal diseñado para automatizar la indexación de proyectos y optimizar la colaboración con agentes de IA. Es **agnóstico al idioma** y se adapta a las preferencias del usuario, permitiendo activar documentación profesional directamente desde los mensajes de commit.
 
 ---
 
-## 🏷️ AI-Triggered Documentation / Documentación Activada por IA
+## 🏷️ Documentación Activada por IA
 
-The core of this standard is the use of **Trigger Tags** in your commit messages. When an AI agent detects these tags, it automatically performs the required documentation tasks:
+El núcleo de este estándar es el uso de **Etiquetas de Activación (Trigger Tags)** en tus mensajes de commit. Cuando un agente de IA detecta estas etiquetas, realiza de forma automática las tareas de documentación:
 
-- **`#ai-history`**: Signals the AI to update the `HISTORY.md` and `README.md` based on recent code changes.
-- **`#ai-bug`**: Signals that the commit contains a bug fix. The AI will automatically log the issue in the **Bug Registry** (`BUGS.md`) to prevent future regressions.
-
----
-
-## 🚀 Key Features / Características Clave
-
-- **⚡ Instant Context / Contexto Instantáneo**: Optimized for AI agents (Claude, GPT, Gemini) to understand the project's evolution in seconds.
-- **🐛 Bug Registry / Registro de Errores**: Integrated tracking to document solutions and avoid repeating past mistakes.
-- **📂 Incremental Indexing / Indexación Incremental**: Maintains a clean, chronological `HISTORY.md` that serves as a master index for the entire codebase.
-- **🌍 Multi-language Support / Soporte Multi-idioma**: Adapts to any language or combination of languages (English, Spanish, French, etc.) preferred by the user.
-- **🧠 Level 2: Semantic Context (Vector RAG)**: Integrated support for codebase indexing and semantic search using ChromaDB.
+- **`#ai-history`**: Indica a la IA que actualice el historial del proyecto (`HISTORY.md`) basándose en los últimos cambios de código.
+- **`#ai-bug`**: Indica que el commit contiene la corrección de un error. La IA registrará automáticamente el problema en el **Registro de Errores** (`BUGS.md`) para evitar regresiones futuras.
 
 ---
 
-## 📦 Installation / Instalación
+## 🚀 Características Clave
 
-To adopt this standard, simply copy the `.agents` folder into your repository root:
+- **⚡ Contexto Instantáneo**: Optimizado para que agentes de IA (Claude, GPT, Gemini) entiendan la evolución del proyecto en segundos.
+- **🐛 Registro de Errores**: Seguimiento integrado para documentar soluciones y evitar repetir errores pasados.
+- **📂 Indexación Incremental**: Mantiene un archivo `HISTORY.md` limpio y cronológico que sirve como índice maestro de todo el código.
+- **🌍 Soporte Multi-idioma**: Se adapta a cualquier idioma (español, inglés, francés, etc.) definido por el usuario.
+- **🧠 Nivel 2: Contexto Semántico (Vector RAG)**: Soporte integrado para indexación y búsqueda semántica de código usando ChromaDB.
+
+---
+
+## 📦 Instalación
+
+Para adoptar este estándar, simplemente copia la carpeta `.agents` en la raíz de tu repositorio:
 
 ```bash
-# Clone the standard repo
+# Clona el repositorio del estándar
 git clone https://github.com/JoelBeja2000/git-history-standard.git
 
-# Copy the agent configuration to your project
-cp -r git-history-standard/.agents /path/to/your/project/
+# Copia la configuración del agente a tu proyecto
+cp -r git-history-standard/.agents /ruta/a/tu/proyecto/
 ```
 
-Once installed, any compatible AI agent will recognize the `git-history` skill and respond to your `#tags` automatically.
+Una vez instalado, cualquier agente de IA compatible reconocerá la habilidad `git-history` y responderá a tus `#tags` automáticamente.
 
 ---
 
-## 🛠️ Components / Componentes
+## 🛠️ Configuración (Tuneado)
 
-- **`.agents/skills/git-history/SKILL.md`**: Defines how the AI should handle history and bug documentation.
-- **`.agents/workflows/maintain-history.md`**: The step-by-step procedure for tag detection and documentation syncing.
-- **`HISTORY.md`**: Your project's master index (Commits, Branches, Authors, Milestones).
-- **`BUGS.md`**: Documentation of solved issues and troubleshooting.
-- **`tools/`**: Python scripts for vector indexing (`indexer.py`) and semantic search (`search.py`).
+Puedes personalizar el estándar editando el archivo `.agents/skills/git-history/SKILL.md`. En la sección de cabecera (YAML), puedes ajustar:
+
+```yaml
+config:
+  languages: ["es", "en"]      # Idiomas preferidos
+  history_file: "HISTORY.md"   # Nombre del archivo de historial
+  bug_file: "BUGS.md"         # Nombre del registro de errores
+  ai_tags:
+    history: "#ai-history"     # Tags personalizados
+    bug: "#ai-bug"
+```
 
 ---
 
-## 🛠️ How to Use / Cómo Usar
+## 🧠 Búsqueda Semántica (Vector RAG)
 
-### 1. Basic Documentation (Human/AI)
-Just include the trigger tags in your commit messages:
-- `git commit -m "Add new feature #ai-history"`
-- `git commit -m "Fix memory leak #ai-bug"`
+Usa las herramientas incluidas para indexar y buscar en tu código con inteligencia artificial:
 
-### 2. Semantic Search (Vector RAG)
-Use the included tools to index and search your codebase:
-
+### 1. Preparación
 ```bash
-# Setup the environment (creates .venv and installs ChromaDB)
+# Configura el entorno (crea .venv e instala ChromaDB)
 bash tools/setup.sh
+```
 
-# Search for context (e.g., "how is authentication handled?")
+### 2. Uso de herramientas
+```bash
+# Activa el entorno
 source .venv/bin/activate
+
+# Buscar contexto (ej: "¿cómo se gestiona la autenticación?")
 python3 tools/search.py "autenticación" --collection all
+
+# Re-indexar tras cambios importantes
+python3 tools/indexer.py
 ```
 
 ---
 
-## 🆚 Why GHS? / ¿Por qué GHS?
+## 🆚 ¿Por qué GHS?
 
-While industry standards like **Conventional Commits** exist for structuring messages, GHS goes further by optimizing the "Live Collaboration" between Humans and AI:
+A diferencia de estándares como **Conventional Commits**, GHS está diseñado específicamente para la "Colaboración en Vivo" entre humanos e IA:
 
-| Feature / Característica | GHS Standard | Conventional Commits |
+| Característica | Estándar GHS | Conventional Commits |
 | :--- | :--- | :--- |
-| **Real-time Trigger** | Yes (#tags) | No (Static structure) |
-| **Multi-language** | Native support | Manual/Post-process |
-| **Bug Registry** | Integrated (BUGS.md) | External task manager |
-| **AI Context** | Professional Indexing | Diff-based only |
+| **Activador en Tiempo Real** | Sí (#tags) | No (Estructura estática) |
+| **Multi-idioma** | Nativo (Configurable) | Manual / Post-proceso |
+| **Registro de Errores** | Integrado (BUGS.md) | Gestor externo |
+| **Contexto para IA** | Indexación Profesional | Solo basado en Diffs |
 
 ---
 
-## 🖥️ Universal Compatibility / Compatibilidad Universal
+## 🖥️ Compatibilidad Universal
 
-GHS works with **ANY** Git client because it relies on standard Git metadata. You can use your favorite visual manager:
-
-- **SourceTree / GitKraken / Tower**: Just type the tag (e.g., `#ai-history`) in the commit comment field.
-- **VS Code / IntelliJ**: Works directly from the built-in Git integration.
-- **GitHub Desktop / Terminal**: Fully supported.
-
-**Why it works?** The AI agent doesn't care *how* the commit was made; it only cares about the **content** of the message in the `git log`.
+GHS funciona con **CUALQUIER** cliente de Git porque se basa en metadatos estándar. Puedes usar SourceTree, GitKraken, VS Code o la Terminal. La IA detectará el mensaje del commit sin importar cómo se haya creado.
 
 ---
 
-## 📄 License / Licencia
+## 📄 Licencia
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
-*Created by [Oveja](https://github.com/JoelBeja2000) - Simplifying AI-Human collaboration.*
+*Creado por [Oveja](https://github.com/JoelBeja2000) - Simplificando la colaboración Humano-IA.*
