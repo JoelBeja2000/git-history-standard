@@ -18,6 +18,16 @@ El núcleo de este estándar es el uso de **Etiquetas de Activación (Trigger Ta
 
 ---
 
+## 🚀 El "Efecto GHS": Productividad en el Día 1
+
+Imagina que un nuevo desarrollador se une a tu equipo. Con el estándar GHS, su primer día es radicalmente distinto:
+
+- **Herencia de Sabiduría**: Su IA no solo verá el código, sino que "comprenderá" las decisiones pasadas al leer el `HISTORY.md` y el `BUGS.md`. 
+- **Memoria Colectiva**: Si usas el **Modo Enterprise (Qdrant)**, su IA se conecta al servidor compartido y hereda instantáneamente toda la memoria técnica del equipo.
+- **Onboarding de IA**: La IA del nuevo desarrollador se convierte en un experto del proyecto en segundos, guiándole sobre dónde están las piezas clave y qué errores no debe repetir.
+
+---
+
 ## 🚀 Características Clave
 
 - **⚡ Contexto Instantáneo**: Optimizado para que agentes de IA (Claude, GPT, Gemini) entiendan la evolución del proyecto en segundos.
