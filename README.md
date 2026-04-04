@@ -145,6 +145,21 @@ security:
 
 ---
 
+## 👥 Colaboración en Equipo (Enterprise Mode)
+
+GHS está diseñado para escalar desde un desarrollador solo hasta grandes equipos de ingeniería. Aquí te explicamos cómo usarlo de forma profesional:
+
+### 1. Servidor de Vectores Compartido
+En lugar de que cada desarrollador tenga su propia base de datos local, el equipo puede levantar un único servidor de **Qdrant** (en un VPS o servidor interno) y apuntar todos sus `SKILL.md` a la misma URL para compartir la **misma memoria del proyecto**.
+
+### 2. Automatización con CI/CD
+Puedes configurar un **GitHub Action** para que ejecute `tools/indexer.py` automáticamente cada vez que se apruebe un Pull Request en `master`. Así, el índice semántico estará siempre actualizado para todos.
+
+### 3. Trazabilidad Total
+Gracias a la columna **Author / Autor** en el `HISTORY.md` y `BUGS.md`, el equipo siempre sabrá qué compañero hizo un cambio y qué IA lo documentó.
+
+---
+
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) para más detalles.
