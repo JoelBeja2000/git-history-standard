@@ -240,3 +240,9 @@ GHS te permite guardar la historia visual de tu proyecto donde tú quieras:
    - Ejecutar `git add` de esas imágenes automáticamente.
    - Referenciarlas en `HISTORY.md` con la ruta correcta.
 3. **Búsqueda Semántica**: Nuestro `indexer.py` escanea tu historial en busca de imágenes Markdown (`![alt](ruta)`). El `alt-text` se indexa en tu base de datos de vectores (Chroma/Qdrant), haciendo que tus cambios visuales se puedan buscar por su descripción.
+
+
+#### 🔗 Conexión con BBDD Externas (Rust, SQL, Cloud)
+Si tus imágenes están en una base de datos externa (ej. una BBDD gestionada por Rust o un bucket S3), aún puedes usar GHS:
+- **Referencia por ID**: En lugar de una ruta local, usa una URI personalizada como `![Alt](db://image_id)`.
+- **Puentes (Bridges)**: Puedes añadir un pequeño script en `tools/` que sirva de puente entre la IA y tu BBDD externa. Solo tienes que actualizar el `SKILL.md` para decirle a la IA cómo invocar ese script.
