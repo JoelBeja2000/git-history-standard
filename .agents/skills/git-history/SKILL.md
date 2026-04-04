@@ -15,9 +15,10 @@ config:
     share_env: false   # [CRITICAL] NEVER set to true unless you are in a local, air-gapped environment
   screenshots:
     enabled: true
-    path: "assets/screenshots/" # CUSTOMIZABLE: Point to any local folder or shared volume
-    auto_index: true # Whether to index image alt-text in the vector store
-    analyze_images: true # [COST WARNING] Set to false to prevent the AI from using vision tokens
+    path: "assets/screenshots/" # RECOGNIZED BY AI: The agent will use this path to save/load captures.
+    auto_index: true # AI will automatically index image alt-text into vectors.
+    analyze_images: true # Allow AI to use vision to describe the contents.
+    auto_upload: true # AI instruction: Always 'git add' images in this path during synchronization.
   vector_store:
     provider: "qdrant" # EXTENSIBLE: "chroma" (local), "qdrant" (server), or any custom provider
     url: "http://localhost:6333"

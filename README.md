@@ -226,3 +226,17 @@ Just copy the files. Any AI agent (Antigravity, Cursor, etc.) will detect the `S
 2. Run: `docker-compose up -d`
 3. Edit `.agents/skills/git-history/SKILL.md` to set `vector_store.provider: "qdrant"`.
 4. Run: `python3 tools/indexer.py`
+
+
+---
+
+### 📸 Advanced: Custom Screenshots & Storage
+
+GHS allows you to store your project's visual history anywhere:
+
+1. **Change the Path**: Edit `.agents/skills/git-history/SKILL.md` and update `screenshots.path`. The AI agent will immediately start saving and looking for images in that new directory.
+2. **AI-Driven Uploads**: When you ask an agent to "Sync History", it will automatically:
+   - Identify new images in your custom path.
+   - Run `git add` for those images.
+   - Embed them in `HISTORY.md` using the new path.
+3. **Semantic Discovery**: Our `indexer.py` scans your history for Markdown images (`![alt](path)`). The `alt-text` is indexed into your vector database (Chroma/Qdrant), making your UI changes searchable by description.

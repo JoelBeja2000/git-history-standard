@@ -226,3 +226,17 @@ Solo copia los archivos. Cualquier agente de IA (Antigravity, Cursor, etc.) dete
 2. Ejecuta: `docker-compose up -d`
 3. Edita `.agents/skills/git-history/SKILL.md` para poner `vector_store.provider: "qdrant"`.
 4. Ejecuta: `python3 tools/indexer.py`
+
+
+---
+
+### 📸 Avanzado: Capturas y Almacenamiento Personalizado
+
+GHS te permite guardar la historia visual de tu proyecto donde tú quieras:
+
+1. **Cambiar la Ruta**: Edita `.agents/skills/git-history/SKILL.md` y actualiza `screenshots.path`. El agente de IA empezará a guardar y buscar imágenes en esa nueva carpeta al instante.
+2. **Subida Automática (IA)**: Cuando le pides a una IA que "Sincronice el Historial", ella hará lo siguiente:
+   - Detectar nuevas imágenes en tu ruta personalizada.
+   - Ejecutar `git add` de esas imágenes automáticamente.
+   - Referenciarlas en `HISTORY.md` con la ruta correcta.
+3. **Búsqueda Semántica**: Nuestro `indexer.py` escanea tu historial en busca de imágenes Markdown (`![alt](ruta)`). El `alt-text` se indexa en tu base de datos de vectores (Chroma/Qdrant), haciendo que tus cambios visuales se puedan buscar por su descripción.
