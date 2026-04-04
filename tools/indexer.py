@@ -2,6 +2,7 @@
 """
 GHS Vector Indexer - Indexes HISTORY.md, BUGS.md, and source code.
 Supports: ChromaDB (Local) and Qdrant (Server/Docker).
+Now with Image Alt-Text Indexing for Visual Documentation.
 """
 import os
 import sys
@@ -30,7 +31,8 @@ def load_ghs_config(project_path):
         "history_file": "HISTORY.md",
         "bug_file": "BUGS.md",
         "ai_tags": {"history": "#ai-history", "bug": "#ai-bug"},
-        "vector_store": {"provider": "chroma"}
+        "vector_store": {"provider": "chroma"},
+        "screenshots": {"enabled": False, "path": "assets/screenshots/", "auto_index": True}
     }
     if os.path.exists(skill_path):
         try:
@@ -60,6 +62,17 @@ def chunk_history_file(filepath):
     chunks = []
     if not os.path.exists(filepath): return chunks
     with open(filepath, 'r', encoding='utf-8') as f: content = f.read()
+    
+    # Extract images for indexing
+    images = re.findall(r'!\[(.*?)\]\((.*?)\)', content)
+    for alt, img_path in images:
+        if alt.strip():
+            chunks.append({
+                "id": compute_hash(f"img:{img_path}")[:16],
+                "content": f"Image/Capture: {alt} (Path: {img_path})",
+                "metadata": {"source": os.path.basename(filepath), "type": "screenshot", "alt_text": alt}
+            })
+
     lines = content.split('\n')
     current_section = ""; section_title = "General"
     for line in lines:

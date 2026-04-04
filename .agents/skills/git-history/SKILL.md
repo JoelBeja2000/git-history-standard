@@ -13,6 +13,10 @@ config:
   security:
     share_index: false # [IMPORTANT] Set to true ONLY for private repos if you want to share the vector cache
     share_env: false   # [CRITICAL] NEVER set to true unless you are in a local, air-gapped environment
+  screenshots:
+    enabled: true
+    path: "assets/screenshots/"
+    auto_index: true # Whether to index image alt-text in the vector store
   vector_store:
     provider: "qdrant" # Options: "chroma" (local), "qdrant" (server)
     url: "http://localhost:6333"
