@@ -125,6 +125,21 @@ GHS funciona con **CUALQUIER** cliente de Git porque se basa en metadatos están
 
 ---
 
+## 🔒 Seguridad y Privacidad
+
+El uso de herramientas de IA y bases de datos vectoriales requiere precaución:
+
+> [!CAUTION]
+> **NUNCA subas la carpeta `.ai-index/` a un repositorio público.**
+> Contiene fragmentos de tu código y de tu historial en texto plano. El estándar incluye un `.gitignore` para evitar esto automáticamente.
+
+### Protecciones de GHS
+- **`.ai-index/`**: Excluido (Base de datos local).
+- **`.env`**: Excluido (Claves de API).
+- **`.venv/`**: Excluido (Entorno de Python).
+
+---
+
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) para más detalles.
