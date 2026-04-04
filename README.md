@@ -263,6 +263,10 @@ If your AI has terminal access, use the `--json` flag for machine-readable conte
 python3 tools/search.py "error context" --json
 ```
 
+### 🪄 Bonus: Hands-Free Git Workflow
+Did you know you can instruct your AI to handle all your Git and GitHub commands automatically using the `gh` CLI?  
+🔗 **[Read the Automated Git Workflow Guide](docs/automated-git-workflow.md)**
+
 ---
 
 ## 🖥️ Compatibility

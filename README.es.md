@@ -263,6 +263,10 @@ Si tu IA tiene acceso a terminal, usa el flag `--json` para obtener contexto pro
 python3 tools/search.py "contexto del error" --json
 ```
 
+### 🪄 Bonus: Flujo de Git "Sin Manos"
+¿Sabías que puedes darle instrucciones a tu IA para que gestione todos tus repositorios y comandos de GitHub automáticamente usando `gh` CLI?  
+🔗 **[Lee la Guía del Flujo de Git Automatizado](docs/automated-git-workflow.es.md)**
+
 ---
 
 ## 🖥️ Compatibilidad
