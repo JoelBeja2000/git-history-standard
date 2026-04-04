@@ -165,12 +165,20 @@ Una vez copiado, cualquier agente de IA compatible detectará el archivo `SKILL.
 
 ---
 
-## 🛠️ Configuración
+## 🛠️ Configuración y Diseño Agnóstico
 
-Todo se define en `.agents/skills/git-history/SKILL.md` (YAML frontmatter):
+GHS está diseñado para ser **agnóstico al almacenamiento y al proveedor**. Puedes cambiar cualquier ruta o base de datos en `.agents/skills/git-history/SKILL.md`.
+
+Todo se define en el frontmatter YAML:
 
 ```yaml
 config:
+  # ...
+  screenshots:
+    path: "assets/screenshots/" # Usa cualquier ruta local o compartida
+  vector_store:
+    provider: "chroma"  # EXTENSIBLE: soporta local o cualquier nube (Qdrant, Pinecone, etc.)
+```
   languages: ["es", "en"]
   history_file: "HISTORY.md"
   bug_file: "BUGS.md"

@@ -15,11 +15,11 @@ config:
     share_env: false   # [CRITICAL] NEVER set to true unless you are in a local, air-gapped environment
   screenshots:
     enabled: true
-    path: "assets/screenshots/"
+    path: "assets/screenshots/" # CUSTOMIZABLE: Point to any local folder or shared volume
     auto_index: true # Whether to index image alt-text in the vector store
     analyze_images: true # [COST WARNING] Set to false to prevent the AI from using vision tokens
   vector_store:
-    provider: "qdrant" # Options: "chroma" (local), "qdrant" (server)
+    provider: "qdrant" # EXTENSIBLE: "chroma" (local), "qdrant" (server), or any custom provider
     url: "http://localhost:6333"
     collection_history: "ghs_history"
     collection_code: "ghs_code"

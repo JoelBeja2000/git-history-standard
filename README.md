@@ -165,12 +165,20 @@ Once copied, any compatible AI agent will detect the `SKILL.md` file and follow 
 
 ---
 
-## 🛠️ Configuration
+## 🛠️ Configuration & Agnostic Design
 
-Everything is defined in `.agents/skills/git-history/SKILL.md` (YAML frontmatter):
+GHS is designed to be **storage and provider agnostic**. You can change any path or database provider in `.agents/skills/git-history/SKILL.md`.
+
+Everything is defined in the YAML frontmatter:
 
 ```yaml
 config:
+  # ...
+  screenshots:
+    path: "assets/screenshots/" # Use any local or shared path
+  vector_store:
+    provider: "chroma"  # EXTENSIBLE: supports local or any cloud DB (Qdrant, Pinecone, etc.)
+```
   languages: ["en", "es"]
   history_file: "HISTORY.md"
   bug_file: "BUGS.md"
