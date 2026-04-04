@@ -9,7 +9,7 @@ config:
     history: "#ai-history"
     bug: "#ai-bug"
   vector_store:
-    provider: "chroma" # Options: "chroma" (local), "qdrant" (server)
+    provider: "qdrant" # Options: "chroma" (local), "qdrant" (server)
     url: "http://localhost:6333"
     collection_history: "ghs_history"
     collection_code: "ghs_code"

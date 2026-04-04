@@ -45,13 +45,18 @@ source "$PROJECT_PATH/.venv/bin/activate"
 pip install chromadb qdrant-client --quiet
 echo "  ✅ Dependencies installed"
 
-# 5. Copy tools to project
-echo ""
-echo "🔧 Copying GHS tools to project..."
-mkdir -p "$PROJECT_PATH/tools"
-cp "$TOOLS_DIR/indexer.py" "$PROJECT_PATH/tools/"
-cp "$TOOLS_DIR/search.py" "$PROJECT_PATH/tools/"
-echo "  ✅ indexer.py and search.py copied to tools/"
+# 5. Copy tools to project (only if not in source repo)
+if [ ! "$TOOLS_DIR/indexer.py" -ef "$PROJECT_PATH/tools/indexer.py" ]; then
+    echo ""
+    echo "🔧 Copying GHS tools to project..."
+    mkdir -p "$PROJECT_PATH/tools"
+    cp "$TOOLS_DIR/indexer.py" "$PROJECT_PATH/tools/"
+    cp "$TOOLS_DIR/search.py" "$PROJECT_PATH/tools/"
+    echo "  ✅ indexer.py and search.py copied to tools/"
+else
+    echo ""
+    echo "🔧 Skipping tools copy (already in source repo)"
+fi
 
 # 6. Run initial indexing
 echo ""

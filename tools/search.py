@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 GHS Vector Search - Searches ChromaDB or Qdrant.
+Supports --json flag for AI agent consumption.
 """
 import os
 import sys
@@ -37,10 +38,9 @@ def search_index(project_path, query, n_results=5):
     if provider == 'qdrant':
         if QdrantClient is None: return [{"type": "❌ Error", "content": "qdrant-client not installed"}]
         client = QdrantClient(url=vstore.get('url', 'http://localhost:6333'))
-        # Search History & Code (Simplified)
         for col in [vstore.get('collection_history', 'ghs_history'), vstore.get('collection_code', 'ghs_code')]:
             try:
-                hits = client.search(collection_name=col, query_vector=[0.0]*768, limit=n_results) # Placeholder vector
+                hits = client.search(collection_name=col, query_vector=[0.0]*768, limit=n_results) 
                 for hit in hits:
                     results_all.append({"type": f"🔍 {col}", "content": hit.payload.get("content", ""), "source": hit.payload.get("source", ""), "score": hit.score})
             except: pass
@@ -65,6 +65,11 @@ def print_results(results, query):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("query")
+    parser.add_argument("--json", action="store_true", help="Output results in JSON format for AI agents")
     args = parser.parse_args()
     results = search_index(os.getcwd(), args.query)
-    print_results(results, args.query)
+    
+    if args.json:
+        print(json.dumps({"query": args.query, "results": results}, indent=2, ensure_ascii=False))
+    else:
+        print_results(results, args.query)
