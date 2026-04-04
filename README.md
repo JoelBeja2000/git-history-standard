@@ -103,4 +103,23 @@ GHS funciona con **CUALQUIER** cliente de Git porque se basa en metadatos están
 Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
+
+## 🤖 Integración Universal de IA (Claude, GPT, Antigravity)
+
+Este estándar es "AI-First". Cualquier agente de IA puede consumir este contexto de dos formas:
+
+### 1. Lectura Directa
+Simplemente indica a tu IA que lea los archivos `.agents/skills/git-history/SKILL.md` y `HISTORY.md`. Al estar estructurados semánticamente, la IA entenderá el proyecto al instante.
+
+### 2. Integración por Terminal (Modo Agente)
+Si usas una IA con acceso a terminal (como Claude CLI o Antigravity), puedes pedirle que ejecute la búsqueda con el flag `--json`:
+
+```bash
+# La IA obtendrá un objeto JSON procesable con todo el contexto
+python3 tools/search.py "contexto del error" --json
+```
+
+---
+
+---
 *Creado por [Oveja](https://github.com/JoelBeja2000) - Simplificando la colaboración Humano-IA.*
