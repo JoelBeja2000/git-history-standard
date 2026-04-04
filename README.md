@@ -205,92 +205,24 @@ config:
 
 GHS has 3 adoption levels. You don't need the highest to get started:
 
-| Level | Requirements | Description |
-| :--- | :--- | :--- |
-| **1. Plain Text** | None | Just `HISTORY.md` + `BUGS.md`. The AI reads them directly. |
-| **2. Local (ChromaDB)** | Python + `.venv` | Local vector indexing for semantic search. |
-| **3. Enterprise (Qdrant)** | Docker | Shared server for teams. Collective memory. |
-
-### Level 2: Local Search
-```bash
-bash tools/setup.sh           # Install ChromaDB in .venv
-source .venv/bin/activate
-python3 tools/indexer.py       # Index your project
-python3 tools/search.py "authentication" --collection all
-```
-
-### Level 3: Shared Server (Docker)
-```bash
-docker-compose up -d           # Start Qdrant on port 6333
-```
-Then change `provider: "qdrant"` in your `SKILL.md`.
-
----
-
-## 🖼️ Visual Documentation
-
-GHS lets you attach screenshots to commits so reviewers can see changes directly on GitHub.
-
-**Flow:**
-1. Save your screenshot in `assets/screenshots/` (or your configured folder).
-2. Reference it in the "Screenshots" column of `HISTORY.md`:
-
-| Commit | Author | Description | Screenshots |
+| Level | Requirements | Activation Command | Description |
 | :--- | :--- | :--- | :--- |
-| `fe30d72` | @dev1 | Sidebar redesign | ![Sidebar v2](assets/screenshots/sidebar_v2.png) |
+| **1. Plain Text** | None | *Automatic* | Just `HISTORY.md` + `BUGS.md`. AI reads them directly. |
+| **2. Local** | Python | `bash tools/setup.sh` | Local vector indexing using ChromaDB. |
+| **3. Enterprise** | Docker | `docker-compose up -d` | Shared server for teams using Qdrant. |
 
-> [!NOTE]
-> Images **must** be pushed to Git (unlike the vector index). It's the only way they'll be visible on GitHub/GitLab during Code Reviews.
+### 🚀 How to Enable
 
-Image alt-text is indexed in the vector database, enabling visual change search by concept (*"when did we change the sidebar?"*).
+#### Level 1: Ready to go
+Just copy the files. Any AI agent (Antigravity, Cursor, etc.) will detect the `SKILL.md` and read the history files as standard text.
 
----
+#### Level 2: Local Search (ChromaDB)
+1. Ensure you have Python installed.
+2. Run: `bash tools/setup.sh`
+3. The script will create a `.venv`, install dependencies, and index your project.
 
-## 👥 Team Usage
-
-GHS scales from a solo developer to large teams:
-
-- **Shared server**: Point all team `SKILL.md` files to the same Qdrant to share a common project memory.
-- **CI/CD**: Set up a GitHub Action that runs `tools/indexer.py` on every merge to `master`.
-- **Traceability**: The "Author" column in `HISTORY.md` and `BUGS.md` makes it clear who made each change and which AI documented it.
-
----
-
-## 🤖 AI Agent Integration
-
-### Example: Using it with Antigravity, Cursor or Windsurf
-When you use a sophisticated AI agent that has file system access (like Antigravity or Cursor), the experience is completely seamless.
-
-1. You create a commit with the tag: `git commit -m "Update login flow #ai-history"`
-2. You ask your agent: *"I just made a commit with #ai-history, please execute the standard."*
-3. **The Magic:** The agent will automatically find the `.agents/skills/git-history/SKILL.md` file in your repository, read the exact rules on how to document history, read your `git diff`, and update `HISTORY.md` perfectly without you needing to explain *how* to do it.
-
-Any agent can consume context in two ways:
-
-### Direct Reading
-Tell your AI to read `SKILL.md` and `HISTORY.md`. Being semantically structured, the AI will understand the project instantly.
-
-### Terminal Integration
-If your AI has terminal access, use the `--json` flag for machine-readable context:
-```bash
-python3 tools/search.py "error context" --json
-```
-
-### 🪄 Bonus: Hands-Free Git Workflow
-Did you know you can instruct your AI to handle all your Git and GitHub commands automatically using the `gh` CLI?  
-🔗 **[Read the Automated Git Workflow Guide](docs/automated-git-workflow.md)**
-
----
-
-## 🖥️ Compatibility
-
-GHS works with **any** Git client (SourceTree, GitKraken, VS Code, Terminal). It relies on standard commit messages — no extensions or plugins required.
-
----
-
-## 📄 License
-
-This project is under the MIT License — see [LICENSE](LICENSE) for details.
-
----
-*Created by [Oveja](https://github.com/JoelBeja2000) — Simplifying Human-AI collaboration.*
+#### Level 3: Team Search (Qdrant)
+1. Ensure Docker is running.
+2. Run: `docker-compose up -d`
+3. Edit `.agents/skills/git-history/SKILL.md` to set `vector_store.provider: "qdrant"`.
+4. Run: `python3 tools/indexer.py`

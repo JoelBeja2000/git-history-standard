@@ -205,92 +205,24 @@ config:
 
 GHS tiene 3 niveles de adopción. No necesitas el nivel más alto para empezar:
 
-| Nivel | Requisitos | Descripción |
-| :--- | :--- | :--- |
-| **1. Texto Plano** | Ninguno | Solo `HISTORY.md` + `BUGS.md`. La IA los lee directamente. |
-| **2. Local (ChromaDB)** | Python + `.venv` | Indexación vectorial local para búsqueda semántica. |
-| **3. Enterprise (Qdrant)** | Docker | Servidor compartido para equipos. Memoria colectiva. |
-
-### Nivel 2: Búsqueda Local
-```bash
-bash tools/setup.sh           # Instala ChromaDB en .venv
-source .venv/bin/activate
-python3 tools/indexer.py       # Indexa tu proyecto
-python3 tools/search.py "autenticación" --collection all
-```
-
-### Nivel 3: Servidor Compartido (Docker)
-```bash
-docker-compose up -d           # Levanta Qdrant en puerto 6333
-```
-Luego cambia `provider: "qdrant"` en tu `SKILL.md`.
-
----
-
-## 🖼️ Documentación Visual
-
-GHS permite adjuntar capturas de pantalla a los commits para que los revisores vean los cambios directamente en GitHub.
-
-**Flujo:**
-1. Guarda tu captura en `assets/screenshots/` (o la carpeta que configures).
-2. Referénciala en la columna "Capturas" de `HISTORY.md`:
-
-| Commit | Author | Description | Screenshots |
+| Nivel | Requisitos | Comando de Activación | Descripción |
 | :--- | :--- | :--- | :--- |
-| `fe30d72` | @dev1 | Rediseño de la Sidebar | ![Sidebar v2](assets/screenshots/sidebar_v2.png) |
+| **1. Texto Plano** | Ninguno | *Automático* | Solo `HISTORY.md` + `BUGS.md`. La IA los lee directamente. |
+| **2. Local** | Python | `bash tools/setup.sh` | Indexación local usando ChromaDB. |
+| **3. Enterprise** | Docker | `docker-compose up -d` | Servidor compartido para equipos usando Qdrant. |
 
-> [!NOTE]
-> Las imágenes **sí** deben subirse a Git (a diferencia del índice vectorial). Es la única forma de que se vean en GitHub/GitLab durante los Code Reviews.
+### 🚀 Cómo Activar
 
-El texto alternativo de cada imagen se indexa en la base de datos de vectores, permitiendo buscar cambios visuales por conceptos (*"¿cuándo cambiamos la sidebar?"*).
+#### Nivel 1: Listo para usar
+Solo copia los archivos. Cualquier agente de IA (Antigravity, Cursor, etc.) detectará el `SKILL.md` y leerá los archivos de historial como texto estándar.
 
----
+#### Nivel 2: Búsqueda Local (ChromaDB)
+1. Asegúrate de tener Python instalado.
+2. Ejecuta: `bash tools/setup.sh`
+3. El script creará un `.venv`, instalará dependencias e indexará tu proyecto.
 
-## 👥 Uso en Equipos
-
-GHS escala desde un desarrollador solo hasta equipos grandes:
-
-- **Servidor compartido**: Apunta todos los `SKILL.md` del equipo al mismo Qdrant para compartir una misma memoria del proyecto.
-- **CI/CD**: Configura un GitHub Action que ejecute `tools/indexer.py` en cada merge a `master`.
-- **Trazabilidad**: La columna "Autor" en `HISTORY.md` y `BUGS.md` deja claro quién hizo cada cambio y qué IA lo documentó.
-
----
-
-## 🤖 Integración con Agentes de IA
-
-### Ejemplo: Cómo usarlo con Antigravity, Cursor o Windsurf
-Cuando usas un agente de IA sofisticado que tiene acceso a tus archivos (como Antigravity o Cursor), la experiencia es completamente mágica.
-
-1. Haces tu commit con la etiqueta: `git commit -m "Actualizar flujo de login #ai-history"`
-2. Le pides a tu IA: *"Acabo de hacer un commit con #ai-history, por favor ejecuta el estándar."*
-3. **La Magia:** La IA buscará automáticamente el archivo `.agents/skills/git-history/SKILL.md` en tu repositorio, leerá las reglas exactas de cómo documentar, leerá tu `git diff` y actualizará el `HISTORY.md` perfectamente, sin que tengas que explicarle *cómo* hacerlo.
-
-Cualquier agente puede consumir el contexto de dos formas:
-
-### Lectura Directa
-Indica a tu IA que lea `SKILL.md` y `HISTORY.md`. Al estar estructurados semánticamente, la IA entenderá el proyecto al instante.
-
-### Integración por Terminal
-Si tu IA tiene acceso a terminal, usa el flag `--json` para obtener contexto procesable:
-```bash
-python3 tools/search.py "contexto del error" --json
-```
-
-### 🪄 Bonus: Flujo de Git "Sin Manos"
-¿Sabías que puedes darle instrucciones a tu IA para que gestione todos tus repositorios y comandos de GitHub automáticamente usando `gh` CLI?  
-🔗 **[Lee la Guía del Flujo de Git Automatizado](docs/automated-git-workflow.es.md)**
-
----
-
-## 🖥️ Compatibilidad
-
-GHS funciona con **cualquier** cliente de Git (SourceTree, GitKraken, VS Code, Terminal). Se basa en mensajes de commit estándar — no requiere extensiones ni plugins.
-
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT — ver [LICENSE](LICENSE).
-
----
-*Creado por [Oveja](https://github.com/JoelBeja2000) — Simplificando la colaboración Humano-IA.*
+#### Nivel 3: Búsqueda de Equipo (Qdrant)
+1. Asegúrate de tener Docker abierto.
+2. Ejecuta: `docker-compose up -d`
+3. Edita `.agents/skills/git-history/SKILL.md` para poner `vector_store.provider: "qdrant"`.
+4. Ejecuta: `python3 tools/indexer.py`
