@@ -7,7 +7,34 @@ import os
 import sys
 import json
 import argparse
+import re
+import yaml
 import chromadb
+
+def load_ghs_config(project_path):
+    """Load configuration from SKILL.md frontmatter."""
+    skill_path = os.path.join(project_path, '.agents/skills/git-history/SKILL.md')
+    default_config = {
+        "languages": ["en", "es"],
+        "history_file": "HISTORY.md",
+        "bug_file": "BUGS.md",
+        "ai_tags": {"history": "#ai-history", "bug": "#ai-bug"}
+    }
+    
+    if os.path.exists(skill_path):
+        try:
+            with open(skill_path, 'r') as f:
+                content = f.read()
+                # Simple YAML frontmatter parser
+                match = re.search(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+                if match:
+                    frontmatter = yaml.safe_load(match.group(1))
+                    return frontmatter.get('config', default_config)
+        except Exception as e:
+            # Silently fail and use defaults for search
+            pass
+            
+    return default_config
 
 def search_index(project_path, query, collection_name="all", n_results=5):
     """Search the vector index for relevant results."""

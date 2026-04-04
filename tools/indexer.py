@@ -8,6 +8,8 @@ import sys
 import json
 import hashlib
 import argparse
+import re
+import yaml
 import chromadb
 
 def get_project_path(args_path=None):
@@ -15,6 +17,30 @@ def get_project_path(args_path=None):
 
 def compute_hash(content):
     return hashlib.sha256(content.encode('utf-8')).hexdigest()
+
+def load_ghs_config(project_path):
+    """Load configuration from SKILL.md frontmatter."""
+    skill_path = os.path.join(project_path, '.agents/skills/git-history/SKILL.md')
+    default_config = {
+        "languages": ["en", "es"],
+        "history_file": "HISTORY.md",
+        "bug_file": "BUGS.md",
+        "ai_tags": {"history": "#ai-history", "bug": "#ai-bug"}
+    }
+    
+    if os.path.exists(skill_path):
+        try:
+            with open(skill_path, 'r') as f:
+                content = f.read()
+                # Simple YAML frontmatter parser
+                match = re.search(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+                if match:
+                    frontmatter = yaml.safe_load(match.group(1))
+                    return frontmatter.get('config', default_config)
+        except Exception as e:
+            print(f"⚠️  Could not parse SKILL.md config, using defaults: {e}")
+            
+    return default_config
 
 def load_manifest(index_dir):
     manifest_path = os.path.join(index_dir, 'manifest.json')
@@ -151,13 +177,13 @@ def index_project(project_path):
     )
     
     manifest = load_manifest(index_dir)
+    config = load_ghs_config(project_path)
     
-    # --- Index HISTORY.md ---
-    history_path = os.path.join(project_path, 'HISTORY.md')
+    # --- Index History and Bug Files ---
+    history_path = os.path.join(project_path, config.get('history_file', 'HISTORY.md'))
+    bugs_path = os.path.join(project_path, config.get('bug_file', 'BUGS.md'))
+    
     history_chunks = chunk_history_file(history_path)
-    
-    # --- Index BUGS.md ---
-    bugs_path = os.path.join(project_path, 'BUGS.md')
     bugs_chunks = chunk_history_file(bugs_path)
     
     all_history_chunks = history_chunks + bugs_chunks
