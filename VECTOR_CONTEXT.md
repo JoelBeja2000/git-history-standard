@@ -26,12 +26,29 @@ To keep the standard portable, we propose a `.vectors/` directory (ignored by Gi
 ### 3. Automated Update Hook / Hook de Actualización
 Add a `post-push` or `post-commit` hook that triggers the re-indexing of only the modified files.
 
+## 📜 Vectorizing Git History & Documentation / Vectorizando la Historia y Documentación de Git
+To achieve "Ultra-Fast" context, the AI must index not only the code but also the **Project Memory** itself:
+
+1.  **History Indexing (`HISTORY.md`)**: Each commit entry is vectorized with its **Intent**, **Author**, and **Bilingual Message**.
+    - *Benefit*: Querying "When did we fix the keyboard rendering?" returns the exact commit and context in milliseconds.
+2.  **Bug Registry Indexing (`BUGS.md`)**: Symptoms and solutions are indexed semantically.
+    - *Benefit*: If a new bug appears with symptoms like "lag in input," the AI scans the vector store for similar past issues and identifies the solution instantly.
+3.  **Cross-Language Retrieval**: Using **Multilingual Embeddings** (e.g., `multilingual-e5`), a search in Spanish can retrieve the relevant history even if it was originally written in English (and vice versa).
+
 ---
 
-## 🤖 AI Instructions (Advanced)
-If a project has Vector Context enabled, the AI MUST:
-- **Semantic Search**: Use vector queries for broad questions ("How does the auth work?").
-- **GHS Check**: Use `#ai-history` to link the semantic search with the chronological evolution.
+## 📂 The `.ai-index/` Folder Structure
+To standardize this across all IDEs and Agents:
+- `.ai-index/manifest.json`: Tracks which versions of `HISTORY.md` and `BUGS.md` are indexed.
+- `.ai-index/history_vectors.db`: The specialized vector store for the project's evolution.
+- `.ai-index/code_vectors.db`: The semantic map of the source code.
+
+---
+
+## 🚀 AI Agent Performance (The "Ultra-Fast" Rule)
+When an agent (Antigravity, Claude, etc.) enters a project with an `.ai-index/`, it MUST:
+1.  **Sync the Index**: Check the manifest and re-index any updated history since the last push.
+2.  **Prioritize Semantic Retrieval**: Use the vector store to answer "What has been done?" instead of reading the entire `HISTORY.md` linearly.
 
 ---
 *Research Branch: feature/vector-context-research*
