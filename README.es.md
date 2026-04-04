@@ -245,6 +245,13 @@ GHS escala desde un desarrollador solo hasta equipos grandes:
 
 ## 🤖 Integración con Agentes de IA
 
+### Ejemplo: Cómo usarlo con Antigravity, Cursor o Windsurf
+Cuando usas un agente de IA sofisticado que tiene acceso a tus archivos (como Antigravity o Cursor), la experiencia es completamente mágica.
+
+1. Haces tu commit con la etiqueta: `git commit -m "Actualizar flujo de login #ai-history"`
+2. Le pides a tu IA: *"Acabo de hacer un commit con #ai-history, por favor ejecuta el estándar."*
+3. **La Magia:** La IA buscará automáticamente el archivo `.agents/skills/git-history/SKILL.md` en tu repositorio, leerá las reglas exactas de cómo documentar, leerá tu `git diff` y actualizará el `HISTORY.md` perfectamente, sin que tengas que explicarle *cómo* hacerlo.
+
 Cualquier agente puede consumir el contexto de dos formas:
 
 ### Lectura Directa

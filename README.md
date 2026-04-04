@@ -245,6 +245,13 @@ GHS scales from a solo developer to large teams:
 
 ## 🤖 AI Agent Integration
 
+### Example: Using it with Antigravity, Cursor or Windsurf
+When you use a sophisticated AI agent that has file system access (like Antigravity or Cursor), the experience is completely seamless.
+
+1. You create a commit with the tag: `git commit -m "Update login flow #ai-history"`
+2. You ask your agent: *"I just made a commit with #ai-history, please execute the standard."*
+3. **The Magic:** The agent will automatically find the `.agents/skills/git-history/SKILL.md` file in your repository, read the exact rules on how to document history, read your `git diff`, and update `HISTORY.md` perfectly without you needing to explain *how* to do it.
+
 Any agent can consume context in two ways:
 
 ### Direct Reading
