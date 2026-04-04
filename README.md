@@ -145,6 +145,31 @@ security:
 
 ---
 
+## 🖼️ Documentación Visual (Capturas de Pantalla)
+
+GHS permite adjuntar pruebas visuales a tus commits para que los revisores en GitHub vean el cambio sin ejecutar el código.
+
+### 1. Configuración
+Activa el soporte en `.agents/skills/git-history/SKILL.md`:
+```yaml
+screenshots:
+  enabled: true
+  path: "assets/screenshots/"
+  auto_index: true # Indexa el texto alternativo para búsqueda semántica
+```
+
+### 2. Cómo usarlo
+Cuando realices un cambio visual, añade la captura a la carpeta configurada y menciónala en el `HISTORY.md`:
+
+| Commit | Autor | Descripción | Screenshots / Capturas |
+| :--- | :--- | :--- | :--- |
+| `a1b2c3d` | @user | Nuevo diseño del Header | ![Header v2](assets/screenshots/header_v2.png) |
+
+> [!TIP]
+> **Indexación Visual**: El texto alternativo (`Header v2`) será indexado en la base de datos de vectores. Si buscas "header", la IA encontrará tanto el código como la captura visual asociada.
+
+---
+
 ## 👥 Colaboración en Equipo (Enterprise Mode)
 
 GHS está diseñado para escalar desde un desarrollador solo hasta grandes equipos de ingeniería. Aquí te explicamos cómo usarlo de forma profesional:
