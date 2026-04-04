@@ -22,6 +22,12 @@ config:
     url: "http://localhost:6333"
     collection_history: "ghs_history"
     collection_code: "ghs_code"
+
+# AI Vision Protocol
+# When an agent encounters a screenshot path in HISTORY.md or BUGS.md:
+# 1. Use `view_file` on the image path to analyze the visual changes.
+# 2. Compare the visual state with the technical description.
+# 3. If on a different branch, use `git show branch:path` to retrieve the image.
 ---
 
 # Git History Management Skill

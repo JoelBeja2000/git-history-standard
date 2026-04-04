@@ -168,6 +168,9 @@ Cuando realices un cambio visual, añade la captura a la carpeta configurada y m
 > [!TIP]
 > **Indexación Visual**: El texto alternativo (`Header v2`) será indexado en la base de datos de vectores. Si buscas "header", la IA encontrará tanto el código como la captura visual asociada.
 
+### 👁️ Análisis de IA (Visión)
+Este estándar instruye a los agentes de IA para que, al encontrar una ruta de imagen en el historial, utilicen sus herramientas de visión (como `view_file`) para inspeccionar el cambio. Esto permite que la IA te diga: *"He analizado la captura y el botón de 'Aceptar' ahora cumple con el diseño solicitado"*.
+
 ---
 
 ## 👥 Colaboración en Equipo (Enterprise Mode)
