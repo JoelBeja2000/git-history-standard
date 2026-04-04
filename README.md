@@ -157,27 +157,36 @@ security:
 
 ## 🖼️ Documentación Visual (Capturas de Pantalla)
 
-GHS permite adjuntar pruebas visuales a tus commits para que los revisores en GitHub vean el cambio sin ejecutar el código.
+GHS permite adjuntar pruebas visuales a tus commits, transformando tu historial en un **portafolio técnico vivo** que los revisores pueden validar de un vistazo.
 
-### 1. Configuración
-Activa el soporte en `.agents/skills/git-history/SKILL.md`:
+### ⚙️ Configuración del Almacenamiento
+En tu archivo [SKILL.md](file://.agents/skills/git-history/SKILL.md), define dónde quieres que vivan tus evidencias visuales:
+
 ```yaml
 screenshots:
   enabled: true
-  path: "assets/screenshots/"
-  auto_index: true     # Indexa el texto alternativo para búsqueda semántica
-  analyze_images: true # Obliga a la IA a analizar visualmente la imagen
+  path: "assets/screenshots/"  # <--- Carpeta de destino (Configurable)
+  auto_index: true             # Indexa el texto alternativo para búsqueda semántica
+  analyze_images: true         # Habilita la visión de IA para análisis técnico
 ```
 
-> [!TIP]
-> **Optimización de Tokens**: Si quieres ahorrar costes, puedes poner `analyze_images: false`. La IA seguirá sabiendo que existe una imagen (gracias al índice vectorial), pero no la "abrirá" a menos que tú se lo pidas explícitamente.
+### 📸 Cómo "Inmortalizar" un Cambio Visual
+Cuando realices un cambio en la interfaz o un flujo de usuario, sigue este flujo:
 
-### 2. Cómo usarlo
-Cuando realices un cambio visual, añade la captura a la carpeta configurada y menciónala en el `HISTORY.md`:
+1.  **Guarda la imagen**: Deja tu captura en la carpeta configurada (ej: `assets/screenshots/redesign.png`).
+2.  **Vínculo en el Historial**: Añade la referencia en la columna **Capturas** de tu `HISTORY.md`:
 
 | Commit | Autor | Descripción | Screenshots / Capturas |
 | :--- | :--- | :--- | :--- |
-| `a1b2c3d` | @user | Nuevo diseño del Header | ![Header v2](assets/screenshots/header_v2.png) |
+| `fe30d72` | @JoelBeja2000 | [AI] Rediseño de la Sidebar | ![Dark Mode Sidebar](assets/screenshots/sidebar_dark.png) |
+
+> [!NOTE]
+> **Visibilidad en GitHub**: A diferencia del índice vectorial, estas imágenes **DEBEN** subirse al repositorio Git para que sean visibles en la web de GitHub/GitLab durante los Code Reviews.
+
+### 🧠 El Valor para la IA
+Gracias a la indexación del **alt-text** (`Dark Mode Sidebar`), la IA puede localizar cambios visuales buscando conceptos abstractos. Si le preguntas *"¿Cuándo cambiamos la barra lateral?"*, la IA te devolverá tanto el código como la imagen exacta del cambio.
+
+---
 
 > [!TIP]
 > **Indexación Visual**: El texto alternativo (`Header v2`) será indexado en la base de datos de vectores. Si buscas "header", la IA encontrará tanto el código como la captura visual asociada.
