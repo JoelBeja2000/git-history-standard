@@ -49,7 +49,16 @@ security:
 
 ## 🆚 ¿En qué se diferencia de un buen CHANGELOG.md?
 
-Un `CHANGELOG.md` es un resumen lineal de versiones. GHS es un **sistema de contexto** diseñado para IA.
+Un `CHANGELOG.md` es un documento estático que un humano lee de arriba a abajo. GHS es un **sistema de contexto vivo** diseñado para que una IA lo consulte, lo busque y lo entienda.
+
+La diferencia fundamental: **toda la información de GHS está vectorizada.**
+
+| | CHANGELOG.md | GHS |
+|:---|:---|:---|
+| **Búsqueda** | Ctrl+F (texto exacto) | Lenguaje natural semántico |
+| **Consulta** | Lineal, de arriba a abajo | Por concepto, autor, fecha o componente |
+| **Contexto para IA** | La IA lo lee entero cada vez | La IA recupera solo lo relevante |
+| **Escalabilidad** | Se vuelve ilegible con el tiempo | El índice vectorial crece sin degradarse |
 
 ### Ejemplo concreto: Antes vs Después
 
@@ -60,9 +69,9 @@ commit eaeaa75 - Fix bug
 commit 4311cec - Refactor auth
 commit 195bcee - WIP
 ```
-Tu IA no sabe qué bug se arregló, por qué se refactorizó auth, ni qué significa "WIP". Tiene que leer miles de líneas de diff para **adivinar**.
+Tu IA no sabe qué bug se arregló, por qué se refactorizó auth, ni qué significa "WIP". Tiene que leer miles de líneas de diff para adivinar.
 
-**Con GHS** — La IA lee una tabla estructurada:
+**Con GHS** — La IA no solo lee una tabla estructurada: la *consulta semánticamente.*
 
 | Commit | Autor | Descripción | Detalles Técnicos |
 | :--- | :--- | :--- | :--- |
@@ -70,7 +79,17 @@ Tu IA no sabe qué bug se arregló, por qué se refactorizó auth, ni qué signi
 | `eaeaa75` | @dev2 | Fix: Redondeo en facturas | Error de precisión float en `invoice.py:L45`. Aplicar `Decimal`. |
 | `4311cec` | @dev1 | Refactorizar auth a JWT | Eliminar sesiones server-side. Añadir middleware en `auth/jwt.py`. |
 
-La IA ahora sabe **qué**, **quién**, **por qué** y **dónde**. Y si tienes la búsqueda semántica activada, puede encontrar esto preguntando: *"¿cuándo cambiamos el sistema de pagos?"*
+La IA ahora sabe **qué**, **quién**, **por qué** y **dónde**. Pero lo importante no es solo el formato — es que puede *preguntarlo*:
+
+```bash
+# En lugar de buscar "Stripe" con Ctrl+F...
+python3 tools/search.py "¿cuándo cambiamos el sistema de pagos?"
+
+# → Devuelve commit 7accc32 con todo su contexto técnico,
+#   aunque el commit no mencione "pagos" con esa palabra exacta.
+```
+
+Con un `CHANGELOG.md` de 500 entradas, esa pregunta es imposible. Con GHS, tarda milisegundos.
 
 ---
 
