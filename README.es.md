@@ -23,6 +23,7 @@ tu-proyecto/
 │   ├── search.py                        ← Búsqueda por lenguaje natural
 │   └── setup.sh                         ← Instalación del entorno Python
 ├── assets/screenshots/                  ← Capturas visuales (opcional)
+├── docker-compose.yml                   ← Para Qdrant (Nivel 3)
 └── .gitignore                           ← Pre-configurado para excluir datos sensibles
 ```
 
@@ -157,6 +158,7 @@ cp -r git-history-standard/.agents /ruta/a/tu/proyecto/
 cp git-history-standard/HISTORY.md /ruta/a/tu/proyecto/
 cp git-history-standard/BUGS.md /ruta/a/tu/proyecto/
 cp -r git-history-standard/tools /ruta/a/tu/proyecto/
+cp git-history-standard/docker-compose.yml /ruta/a/tu/proyecto/  # Opcional (Nivel 3)
 ```
 
 Una vez copiado, cualquier agente de IA compatible detectará el archivo `SKILL.md` y seguirá las reglas automáticamente.

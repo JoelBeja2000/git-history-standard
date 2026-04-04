@@ -23,6 +23,7 @@ your-project/
 │   ├── search.py                        ← Natural language search
 │   └── setup.sh                         ← Python environment setup
 ├── assets/screenshots/                  ← Visual captures (optional)
+├── docker-compose.yml                   ← For Qdrant (Level 3)
 └── .gitignore                           ← Pre-configured to exclude sensitive data
 ```
 
@@ -157,6 +158,7 @@ cp -r git-history-standard/.agents /path/to/your/project/
 cp git-history-standard/HISTORY.md /path/to/your/project/
 cp git-history-standard/BUGS.md /path/to/your/project/
 cp -r git-history-standard/tools /path/to/your/project/
+cp git-history-standard/docker-compose.yml /path/to/your/project/  # Optional (Level 3)
 ```
 
 Once copied, any compatible AI agent will detect the `SKILL.md` file and follow the rules automatically.
