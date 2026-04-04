@@ -44,7 +44,7 @@ Once installed, any compatible AI agent will recognize the `git-history` skill a
 
 - **`.agents/skills/git-history/SKILL.md`**: Defines how the AI should handle history and bug documentation.
 - **`.agents/workflows/maintain-history.md`**: The step-by-step procedure for tag detection and documentation syncing.
-- **`HISTORY.md`**: Your project's master index (Commits, Branches, Milestones).
+- **`HISTORY.md`**: Your project's master index (Commits, Branches, Authors, Milestones).
 - **`BUGS.md`**: Documentation of solved issues and troubleshooting.
 
 ---

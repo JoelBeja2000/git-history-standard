@@ -8,7 +8,7 @@ description: Maintain a bilingual (EN/ES) project history, branch index, and bug
 This skill enables the agent to maintain a high-quality, professional history for any Git project.
 
 ## Core Responsibilities
-1.  **Chronological Indexing**: Maintain a `HISTORY.md` file that captures every major milestone and branch evolution.
+1.  **Chronological Indexing**: Maintain a `HISTORY.md` file that captures every major milestone, branch evolution, and **Author/Actor identity (AI vs Human)**.
 2.  **Bilingual Communication**: All documentation and commit messages must be provided in both English and Spanish (EN/ES).
 3.  **Visual Documentation**: Integrate and caption screenshots in the `README.md` and `HISTORY.md`.
 4.  **Issue Tracking**: Maintain a `BUGS.md` or a "Bug Registry" section to prevent regressions and document solutions.
