@@ -1,170 +1,172 @@
 # 📜 Git History Standard (GHS)
 ### by Oveja 🐑
 
-El **Git History Standard (GHS)** es una convención de documentación + un conjunto de scripts que automatizan el historial de tu proyecto para que cualquier agente de IA lo entienda al instante.
+🇪🇸 [Leer en Español](README.es.md)
 
-**No es un reemplazo de `git log`.** Es una capa estructurada por encima que convierte commits atómicos en contexto semántico buscable.
+**Git History Standard (GHS)** is a documentation convention + a set of scripts that automate your project's history so any AI agent can understand it instantly.
+
+**It's not a replacement for `git log`.** It's a structured layer on top that turns atomic commits into searchable semantic context.
 
 ---
 
-## 📦 ¿Qué instala exactamente en mi repo?
+## 📦 What Does This Install in My Repo?
 
-GHS añade estos archivos a la raíz de tu proyecto:
+GHS adds these files to your project root:
 
 ```
-tu-proyecto/
-├── .agents/skills/git-history/SKILL.md  ← Configuración central (YAML)
-├── HISTORY.md                           ← Historial estructurado (tabla)
-├── BUGS.md                              ← Registro de errores conocidos
+your-project/
+├── .agents/skills/git-history/SKILL.md  ← Central config (YAML)
+├── HISTORY.md                           ← Structured history (table)
+├── BUGS.md                              ← Known bugs registry
 ├── tools/
-│   ├── indexer.py                       ← Indexador semántico (ChromaDB/Qdrant)
-│   ├── search.py                        ← Búsqueda por lenguaje natural
-│   └── setup.sh                         ← Instalación del entorno Python
-├── assets/screenshots/                  ← Capturas visuales (opcional)
-└── .gitignore                           ← Pre-configurado para excluir datos sensibles
+│   ├── indexer.py                       ← Semantic indexer (ChromaDB/Qdrant)
+│   ├── search.py                        ← Natural language search
+│   └── setup.sh                         ← Python environment setup
+├── assets/screenshots/                  ← Visual captures (optional)
+└── .gitignore                           ← Pre-configured to exclude sensitive data
 ```
 
 > [!NOTE]
-> No instala dependencias globales. Todo vive dentro de tu repositorio y un `.venv` local.
+> No global dependencies are installed. Everything lives inside your repo and a local `.venv`.
 
 ---
 
-## 🔒 Seguridad y Privacidad
+## 🔒 Security & Privacy
 
-Antes de nada: GHS genera una base de datos local (`.ai-index/`) que contiene fragmentos de tu código en texto plano. **Nunca debe subirse a un repositorio público.**
+First things first: GHS generates a local database (`.ai-index/`) that contains fragments of your code in plain text. **It should never be pushed to a public repository.**
 
-El `.gitignore` incluido bloquea por defecto:
-- **`.ai-index/`** — Base de datos de vectores local
-- **`.env`** — Claves de API
-- **`.venv/`** — Entorno de Python
+The included `.gitignore` blocks by default:
+- **`.ai-index/`** — Local vector database
+- **`.env`** — API keys
+- **`.venv/`** — Python environment
 
-Puedes controlar este comportamiento en `SKILL.md`:
+You can control this behavior in `SKILL.md`:
 
 ```yaml
 security:
-  share_index: false  # Solo true en repos privados de equipo
-  share_env: false    # Nunca true salvo entornos air-gapped
+  share_index: false  # Only true for private team repos
+  share_env: false    # Never true unless air-gapped
 ```
 
 ---
 
-## 🆚 ¿En qué se diferencia de un buen CHANGELOG.md?
+## 🆚 How Is This Different From a Good CHANGELOG.md?
 
-Un `CHANGELOG.md` es un documento estático que un humano lee de arriba a abajo. GHS es un **sistema de contexto vivo** diseñado para que una IA lo consulte, lo busque y lo entienda.
+A `CHANGELOG.md` is a static document a human reads top to bottom. GHS is a **living context system** designed to be queried, searched, and understood by an AI.
 
-La diferencia fundamental: **toda la información de GHS está vectorizada.**
+The fundamental difference: **all GHS information is vectorized.**
 
 | | CHANGELOG.md | GHS |
 |:---|:---|:---|
-| **Búsqueda** | Ctrl+F (texto exacto) | Lenguaje natural semántico |
-| **Consulta** | Lineal, de arriba a abajo | Por concepto, autor, fecha o componente |
-| **Contexto para IA** | La IA lo lee entero cada vez | La IA recupera solo lo relevante |
-| **Escalabilidad** | Se vuelve ilegible con el tiempo | El índice vectorial crece sin degradarse |
+| **Search** | Ctrl+F (exact text) | Semantic natural language |
+| **Query** | Linear, top to bottom | By concept, author, date or component |
+| **AI Context** | AI reads it entirely every time | AI retrieves only what's relevant |
+| **Scalability** | Becomes unreadable over time | Vector index grows without degradation |
 
-### Ejemplo concreto: Antes vs Después
+### Concrete Example: Before vs After
 
-**Sin GHS** — La IA recibe tu historial así:
+**Without GHS** — The AI receives your history like this:
 ```
 commit 7accc32 - Update payment module
 commit eaeaa75 - Fix bug
 commit 4311cec - Refactor auth
 commit 195bcee - WIP
 ```
-Tu IA no sabe qué bug se arregló, por qué se refactorizó auth, ni qué significa "WIP". Tiene que leer miles de líneas de diff para adivinar.
+Your AI doesn't know what bug was fixed, why auth was refactored, or what "WIP" means. It has to read thousands of diff lines to guess.
 
-**Con GHS** — La IA no solo lee una tabla estructurada: la *consulta semánticamente.*
+**With GHS** — The AI doesn't just read a structured table: it *queries it semantically.*
 
-| Commit | Autor | Descripción | Detalles Técnicos |
+| Commit | Author | Description | Technical Details |
 | :--- | :--- | :--- | :--- |
-| `7accc32` | @dev1 | Migrar pagos a Stripe | Reemplazar PayPal SDK por Stripe.js v3. Cambiar webhook endpoint. |
-| `eaeaa75` | @dev2 | Fix: Redondeo en facturas | Error de precisión float en `invoice.py:L45`. Aplicar `Decimal`. |
-| `4311cec` | @dev1 | Refactorizar auth a JWT | Eliminar sesiones server-side. Añadir middleware en `auth/jwt.py`. |
+| `7accc32` | @dev1 | Migrate payments to Stripe | Replace PayPal SDK with Stripe.js v3. Change webhook endpoint. |
+| `eaeaa75` | @dev2 | Fix: Invoice rounding | Float precision error in `invoice.py:L45`. Apply `Decimal`. |
+| `4311cec` | @dev1 | Refactor auth to JWT | Remove server-side sessions. Add middleware in `auth/jwt.py`. |
 
-La IA ahora sabe **qué**, **quién**, **por qué** y **dónde**. Pero lo importante no es solo el formato — es que puede *preguntarlo*:
+The AI now knows **what**, **who**, **why** and **where**. But the important thing isn't just the format — it can *ask about it*:
 
 ```bash
-# En lugar de buscar "Stripe" con Ctrl+F...
-python3 tools/search.py "¿cuándo cambiamos el sistema de pagos?"
+# Instead of searching "Stripe" with Ctrl+F...
+python3 tools/search.py "when did we change the payment system?"
 
-# → Devuelve commit 7accc32 con todo su contexto técnico,
-#   aunque el commit no mencione "pagos" con esa palabra exacta.
+# → Returns commit 7accc32 with full technical context,
+#   even though the commit doesn't mention "payment" in those exact words.
 ```
 
-Con un `CHANGELOG.md` de 500 entradas, esa pregunta es imposible. Con GHS, tarda milisegundos.
+With a 500-entry `CHANGELOG.md`, that question is impossible. With GHS, it takes milliseconds.
 
 ---
 
-## 🏷️ Cómo Funciona
+## 🏷️ How It Works
 
-El núcleo del estándar son **Etiquetas de Activación** en tus mensajes de commit:
+The core of the standard is **Trigger Tags** in your commit messages:
 
-- **`#ai-history`** — La IA actualiza `HISTORY.md` con un resumen técnico del cambio.
-- **`#ai-bug`** — La IA registra el error y su solución en `BUGS.md`.
-- **`#ai-catchup`** — La IA escanea todos los commits no documentados y genera un resumen en lote.
+- **`#ai-history`** — AI updates `HISTORY.md` with a technical summary of the change.
+- **`#ai-bug`** — AI registers the bug and its fix in `BUGS.md`.
+- **`#ai-catchup`** — AI scans all undocumented commits and generates a batch summary.
 
 > [!IMPORTANT]
-> **¿Has olvidado poner etiquetas?** No pasa nada. El tag `#ai-catchup` existe precisamente para ponerse al día con commits pasados sin documentar. Es la red de seguridad del sistema.
+> **Forgot to add tags?** No problem. The `#ai-catchup` tag exists precisely to catch up with previously undocumented commits. It's the system's safety net.
 
-Si no pones ninguna etiqueta, el commit se trata de forma normal — GHS no interfiere.
+If you don't add any tag, the commit is treated normally — GHS doesn't interfere.
 
 ---
 
-## ⚙️ ¿Quién ejecuta la IA?
+## ⚙️ Who Executes the AI?
 
-Esta es la pregunta clave: pones `#ai-history` en tu commit... ¿y luego qué?
+This is the key question: you put `#ai-history` in your commit... then what?
 
-GHS es una **convención**, no un servicio. La IA que ejecuta las tareas depende de tu entorno. Hay 3 modelos:
+GHS is a **convention**, not a service. The AI that executes the tasks depends on your environment. There are 3 models:
 
-### 1. Agente integrado en el IDE (Automático)
-Si usas un editor con IA integrada (Cursor, Windsurf, Kilo Code, Antigravity), el agente detecta el `SKILL.md` al abrir el proyecto y responde a los tags en tiempo real. **No tienes que hacer nada extra.**
+### 1. IDE-Integrated Agent (Automatic)
+If you use an editor with built-in AI (Cursor, Windsurf, Kilo Code, Antigravity), the agent detects the `SKILL.md` when opening the project and responds to tags in real time. **You don't have to do anything extra.**
 
 ```
-# Haces tu commit normalmente:
-git commit -m "Migrar pagos a Stripe #ai-history"
+# You commit normally:
+git commit -m "Migrate payments to Stripe #ai-history"
 
-# → Tu agente de IDE lee el tag, abre HISTORY.md y lo actualiza.
+# → Your IDE agent reads the tag, opens HISTORY.md and updates it.
 ```
 
-### 2. Ejecución manual por CLI (Bajo demanda)
-Si usas una IA con acceso a terminal (Claude CLI, GitHub Copilot CLI), simplemente le pides que revise los últimos commits:
+### 2. Manual CLI Execution (On demand)
+If you use an AI with terminal access (Claude CLI, GitHub Copilot CLI), simply ask it to review recent commits:
 
 ```bash
-# Le dices a tu IA:
-"Revisa los commits con #ai-history y actualiza HISTORY.md"
+# You tell your AI:
+"Review commits with #ai-history and update HISTORY.md"
 ```
 
-### 3. Automatización CI/CD (Sin humanos)
-Para equipos, puedes configurar un **GitHub Action** que ejecute un script tras cada push a `master`. El script lee los commits nuevos, detecta los tags y actualiza los archivos automáticamente.
+### 3. CI/CD Automation (No humans)
+For teams, you can set up a **GitHub Action** that runs a script after each push to `master`. The script reads new commits, detects tags and updates files automatically.
 
 > [!NOTE]
-> GHS no impone ninguno de estos modelos. Tú eliges cómo y cuándo se ejecuta la IA según tu flujo de trabajo.
+> GHS doesn't enforce any of these models. You choose how and when the AI runs based on your workflow.
 
 ---
 
-## ⚡ Instalación
+## ⚡ Installation
 
 ```bash
-# 1. Clona el estándar
+# 1. Clone the standard
 git clone https://github.com/JoelBeja2000/git-history-standard.git
 
-# 2. Copia la estructura a tu proyecto
-cp -r git-history-standard/.agents /ruta/a/tu/proyecto/
-cp git-history-standard/HISTORY.md /ruta/a/tu/proyecto/
-cp git-history-standard/BUGS.md /ruta/a/tu/proyecto/
-cp -r git-history-standard/tools /ruta/a/tu/proyecto/
+# 2. Copy the structure to your project
+cp -r git-history-standard/.agents /path/to/your/project/
+cp git-history-standard/HISTORY.md /path/to/your/project/
+cp git-history-standard/BUGS.md /path/to/your/project/
+cp -r git-history-standard/tools /path/to/your/project/
 ```
 
-Una vez copiado, cualquier agente de IA compatible detectará el archivo `SKILL.md` y seguirá las reglas automáticamente.
+Once copied, any compatible AI agent will detect the `SKILL.md` file and follow the rules automatically.
 
 ---
 
-## 🛠️ Configuración
+## 🛠️ Configuration
 
-Todo se define en `.agents/skills/git-history/SKILL.md` (YAML frontmatter):
+Everything is defined in `.agents/skills/git-history/SKILL.md` (YAML frontmatter):
 
 ```yaml
 config:
-  languages: ["es", "en"]
+  languages: ["en", "es"]
   history_file: "HISTORY.md"
   bug_file: "BUGS.md"
   ai_tags:
@@ -176,95 +178,95 @@ config:
     enabled: true
     path: "assets/screenshots/"
     auto_index: true
-    analyze_images: true  # false = ahorra tokens de visión
+    analyze_images: true  # false = save vision tokens
   security:
     share_index: false
     share_env: false
   vector_store:
-    provider: "chroma"  # Opciones: "chroma" (local) o "qdrant" (servidor)
+    provider: "chroma"  # Options: "chroma" (local) or "qdrant" (server)
 ```
 
 ---
 
-## 🧠 Búsqueda Semántica (Niveles)
+## 🧠 Semantic Search (Levels)
 
-GHS tiene 3 niveles de adopción. No necesitas el nivel más alto para empezar:
+GHS has 3 adoption levels. You don't need the highest to get started:
 
-| Nivel | Requisitos | Descripción |
+| Level | Requirements | Description |
 | :--- | :--- | :--- |
-| **1. Texto Plano** | Ninguno | Solo `HISTORY.md` + `BUGS.md`. La IA los lee directamente. |
-| **2. Local (ChromaDB)** | Python + `.venv` | Indexación vectorial local para búsqueda semántica. |
-| **3. Enterprise (Qdrant)** | Docker | Servidor compartido para equipos. Memoria colectiva. |
+| **1. Plain Text** | None | Just `HISTORY.md` + `BUGS.md`. The AI reads them directly. |
+| **2. Local (ChromaDB)** | Python + `.venv` | Local vector indexing for semantic search. |
+| **3. Enterprise (Qdrant)** | Docker | Shared server for teams. Collective memory. |
 
-### Nivel 2: Búsqueda Local
+### Level 2: Local Search
 ```bash
-bash tools/setup.sh           # Instala ChromaDB en .venv
+bash tools/setup.sh           # Install ChromaDB in .venv
 source .venv/bin/activate
-python3 tools/indexer.py       # Indexa tu proyecto
-python3 tools/search.py "autenticación" --collection all
+python3 tools/indexer.py       # Index your project
+python3 tools/search.py "authentication" --collection all
 ```
 
-### Nivel 3: Servidor Compartido (Docker)
+### Level 3: Shared Server (Docker)
 ```bash
-docker-compose up -d           # Levanta Qdrant en puerto 6333
+docker-compose up -d           # Start Qdrant on port 6333
 ```
-Luego cambia `provider: "qdrant"` en tu `SKILL.md`.
+Then change `provider: "qdrant"` in your `SKILL.md`.
 
 ---
 
-## 🖼️ Documentación Visual
+## 🖼️ Visual Documentation
 
-GHS permite adjuntar capturas de pantalla a los commits para que los revisores vean los cambios directamente en GitHub.
+GHS lets you attach screenshots to commits so reviewers can see changes directly on GitHub.
 
-**Flujo:**
-1. Guarda tu captura en `assets/screenshots/` (o la carpeta que configures).
-2. Referénciala en la columna "Capturas" de `HISTORY.md`:
+**Flow:**
+1. Save your screenshot in `assets/screenshots/` (or your configured folder).
+2. Reference it in the "Screenshots" column of `HISTORY.md`:
 
-| Commit | Autor | Descripción | Screenshots |
+| Commit | Author | Description | Screenshots |
 | :--- | :--- | :--- | :--- |
-| `fe30d72` | @dev1 | Rediseño de la Sidebar | ![Sidebar v2](assets/screenshots/sidebar_v2.png) |
+| `fe30d72` | @dev1 | Sidebar redesign | ![Sidebar v2](assets/screenshots/sidebar_v2.png) |
 
 > [!NOTE]
-> Las imágenes **sí** deben subirse a Git (a diferencia del índice vectorial). Es la única forma de que se vean en GitHub/GitLab durante los Code Reviews.
+> Images **must** be pushed to Git (unlike the vector index). It's the only way they'll be visible on GitHub/GitLab during Code Reviews.
 
-El texto alternativo de cada imagen se indexa en la base de datos de vectores, permitiendo buscar cambios visuales por conceptos (*"¿cuándo cambiamos la sidebar?"*).
-
----
-
-## 👥 Uso en Equipos
-
-GHS escala desde un desarrollador solo hasta equipos grandes:
-
-- **Servidor compartido**: Apunta todos los `SKILL.md` del equipo al mismo Qdrant para compartir una misma memoria del proyecto.
-- **CI/CD**: Configura un GitHub Action que ejecute `tools/indexer.py` en cada merge a `master`.
-- **Trazabilidad**: La columna "Autor" en `HISTORY.md` y `BUGS.md` deja claro quién hizo cada cambio y qué IA lo documentó.
+Image alt-text is indexed in the vector database, enabling visual change search by concept (*"when did we change the sidebar?"*).
 
 ---
 
-## 🤖 Integración con Agentes de IA
+## 👥 Team Usage
 
-Cualquier agente puede consumir el contexto de dos formas:
+GHS scales from a solo developer to large teams:
 
-### Lectura Directa
-Indica a tu IA que lea `SKILL.md` y `HISTORY.md`. Al estar estructurados semánticamente, la IA entenderá el proyecto al instante.
+- **Shared server**: Point all team `SKILL.md` files to the same Qdrant to share a common project memory.
+- **CI/CD**: Set up a GitHub Action that runs `tools/indexer.py` on every merge to `master`.
+- **Traceability**: The "Author" column in `HISTORY.md` and `BUGS.md` makes it clear who made each change and which AI documented it.
 
-### Integración por Terminal
-Si tu IA tiene acceso a terminal, usa el flag `--json` para obtener contexto procesable:
+---
+
+## 🤖 AI Agent Integration
+
+Any agent can consume context in two ways:
+
+### Direct Reading
+Tell your AI to read `SKILL.md` and `HISTORY.md`. Being semantically structured, the AI will understand the project instantly.
+
+### Terminal Integration
+If your AI has terminal access, use the `--json` flag for machine-readable context:
 ```bash
-python3 tools/search.py "contexto del error" --json
+python3 tools/search.py "error context" --json
 ```
 
 ---
 
-## 🖥️ Compatibilidad
+## 🖥️ Compatibility
 
-GHS funciona con **cualquier** cliente de Git (SourceTree, GitKraken, VS Code, Terminal). Se basa en mensajes de commit estándar — no requiere extensiones ni plugins.
-
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT — ver [LICENSE](LICENSE).
+GHS works with **any** Git client (SourceTree, GitKraken, VS Code, Terminal). It relies on standard commit messages — no extensions or plugins required.
 
 ---
-*Creado por [Oveja](https://github.com/JoelBeja2000) — Simplificando la colaboración Humano-IA.*
+
+## 📄 License
+
+This project is under the MIT License — see [LICENSE](LICENSE) for details.
+
+---
+*Created by [Oveja](https://github.com/JoelBeja2000) — Simplifying Human-AI collaboration.*
