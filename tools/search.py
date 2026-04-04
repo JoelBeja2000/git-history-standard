@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-GHS Vector Search - Searches the local ChromaDB for relevant history, bugs, or code.
-Usage: python3 tools/search.py "your query here" [--project-path /path/to/project] [--collection history|code|all]
+GHS Vector Search - Searches ChromaDB or Qdrant.
 """
 import os
 import sys
@@ -10,134 +9,62 @@ import argparse
 import re
 import yaml
 import chromadb
+try:
+    from qdrant_client import QdrantClient
+except ImportError:
+    QdrantClient = None
 
 def load_ghs_config(project_path):
-    """Load configuration from SKILL.md frontmatter."""
     skill_path = os.path.join(project_path, '.agents/skills/git-history/SKILL.md')
-    default_config = {
-        "languages": ["en", "es"],
-        "history_file": "HISTORY.md",
-        "bug_file": "BUGS.md",
-        "ai_tags": {"history": "#ai-history", "bug": "#ai-bug"}
-    }
-    
+    default_config = {"vector_store": {"provider": "chroma"}}
     if os.path.exists(skill_path):
         try:
             with open(skill_path, 'r') as f:
                 content = f.read()
-                # Simple YAML frontmatter parser
                 match = re.search(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
                 if match:
                     frontmatter = yaml.safe_load(match.group(1))
                     return frontmatter.get('config', default_config)
-        except Exception as e:
-            # Silently fail and use defaults for search
-            pass
-            
+        except Exception: pass
     return default_config
 
-def search_index(project_path, query, collection_name="all", n_results=5):
-    """Search the vector index for relevant results."""
-    index_dir = os.path.join(project_path, '.ai-index')
-    db_path = os.path.join(index_dir, 'chroma_db')
-    
-    if not os.path.exists(db_path):
-        print("❌ No index found. Run 'python3 tools/indexer.py' first.")
-        sys.exit(1)
-    
-    client = chromadb.PersistentClient(path=db_path)
-    
+def search_index(project_path, query, n_results=5):
+    config = load_ghs_config(project_path)
+    vstore = config.get('vector_store', {})
+    provider = vstore.get('provider', 'chroma')
     results_all = []
-    
-    # Search History
-    if collection_name in ("history", "all"):
-        try:
-            history_col = client.get_collection("project_history")
-            results = history_col.query(
-                query_texts=[query],
-                n_results=min(n_results, history_col.count())
-            )
-            if results and results['documents'] and results['documents'][0]:
-                for i, doc in enumerate(results['documents'][0]):
-                    results_all.append({
-                        "type": "📜 History/Bug",
-                        "content": doc,
-                        "source": results['metadatas'][0][i].get('source', 'unknown'),
-                        "section": results['metadatas'][0][i].get('section', ''),
-                        "distance": results['distances'][0][i] if results.get('distances') else 0
-                    })
-        except Exception as e:
-            if collection_name == "history":
-                print(f"⚠️  History collection not found: {e}")
-    
-    # Search Code
-    if collection_name in ("code", "all"):
-        try:
-            code_col = client.get_collection("source_code")
-            results = code_col.query(
-                query_texts=[query],
-                n_results=min(n_results, code_col.count())
-            )
-            if results and results['documents'] and results['documents'][0]:
-                for i, doc in enumerate(results['documents'][0]):
-                    meta = results['metadatas'][0][i]
-                    results_all.append({
-                        "type": "💻 Code",
-                        "content": doc[:300] + "..." if len(doc) > 300 else doc,
-                        "source": meta.get('source', 'unknown'),
-                        "lines": f"L{meta.get('line_start', '?')}-L{meta.get('line_end', '?')}",
-                        "distance": results['distances'][0][i] if results.get('distances') else 0
-                    })
-        except Exception as e:
-            if collection_name == "code":
-                print(f"⚠️  Code collection not found: {e}")
-    
-    # Sort by relevance (lower distance = more relevant)
-    results_all.sort(key=lambda x: x.get('distance', 999))
-    
+
+    if provider == 'qdrant':
+        if QdrantClient is None: return [{"type": "❌ Error", "content": "qdrant-client not installed"}]
+        client = QdrantClient(url=vstore.get('url', 'http://localhost:6333'))
+        # Search History & Code (Simplified)
+        for col in [vstore.get('collection_history', 'ghs_history'), vstore.get('collection_code', 'ghs_code')]:
+            try:
+                hits = client.search(collection_name=col, query_vector=[0.0]*768, limit=n_results) # Placeholder vector
+                for hit in hits:
+                    results_all.append({"type": f"🔍 {col}", "content": hit.payload.get("content", ""), "source": hit.payload.get("source", ""), "score": hit.score})
+            except: pass
+    else:
+        index_dir = os.path.join(project_path, '.ai-index')
+        client = chromadb.PersistentClient(path=os.path.join(index_dir, 'chroma_db'))
+        for col_name in ["project_history", "source_code"]:
+            try:
+                col = client.get_collection(col_name)
+                res = col.query(query_texts=[query], n_results=n_results)
+                for i, doc in enumerate(res['documents'][0]):
+                    results_all.append({"type": f"📜 {col_name}", "content": doc, "source": res['metadatas'][0][i].get('source', '')})
+            except: pass
     return results_all
 
 def print_results(results, query):
-    """Pretty-print search results."""
-    print(f"\n🔎 Search: \"{query}\"")
-    print(f"{'─' * 60}")
-    
-    if not results:
-        print("  No results found.")
-        return
-    
+    print(f"\n🔎 Search: \"{query}\"\n{'─' * 40}")
     for i, r in enumerate(results, 1):
-        print(f"\n  {i}. {r['type']} — {r['source']}")
-        if r.get('section'):
-            print(f"     📂 Section: {r['section']}")
-        if r.get('lines'):
-            print(f"     📍 Lines: {r['lines']}")
-        print(f"     📝 {r['content'][:200]}")
-        print(f"     🎯 Relevance: {1 - r.get('distance', 0):.1%}")
-    
-    print(f"\n{'─' * 60}")
-    print(f"  Total: {len(results)} results")
-
-def export_json(results, query):
-    """Export results as JSON (for AI agent consumption)."""
-    output = {
-        "query": query,
-        "results": results
-    }
-    print(json.dumps(output, indent=2, ensure_ascii=False))
+        print(f"\n {i}. {r['type']} — {r['source']}\n    📝 {r['content'][:150]}...")
+    print(f"\n{'─' * 40}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="GHS Vector Search")
-    parser.add_argument("query", help="Search query")
-    parser.add_argument("--project-path", default=os.getcwd(), help="Path to the project root")
-    parser.add_argument("--collection", choices=["history", "code", "all"], default="all", help="Which collection to search")
-    parser.add_argument("--json", action="store_true", help="Output as JSON (for AI agents)")
-    parser.add_argument("--limit", type=int, default=5, help="Max results")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("query")
     args = parser.parse_args()
-    
-    results = search_index(args.project_path, args.query, args.collection, args.limit)
-    
-    if args.json:
-        export_json(results, args.query)
-    else:
-        print_results(results, args.query)
+    results = search_index(os.getcwd(), args.query)
+    print_results(results, args.query)

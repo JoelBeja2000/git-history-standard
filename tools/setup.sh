@@ -38,12 +38,12 @@ if [ ! -d "$PROJECT_PATH/.venv" ]; then
     echo "  ✅ Virtual environment created at .venv/"
 fi
 
-# 4. Install ChromaDB
+# 4. Install Dependencies
 echo ""
-echo "📦 Installing ChromaDB..."
+echo "📦 Installing ChromaDB and Qdrant-Client..."
 source "$PROJECT_PATH/.venv/bin/activate"
-pip install chromadb --quiet
-echo "  ✅ ChromaDB installed"
+pip install chromadb qdrant-client --quiet
+echo "  ✅ Dependencies installed"
 
 # 5. Copy tools to project
 echo ""

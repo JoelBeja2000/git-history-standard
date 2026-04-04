@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: ghs-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./ .ai-index/qdrant_data:/qdrant/storage:z
+    restart: unless-stopped
+
+networks:
+  default:
+    name: ghs-network
