@@ -40,7 +40,7 @@ tu-proyecto/
 GHS impone un conjunto de **reglas inquebrantables** para Agentes de IA y colaboradores. Puedes (y debes) personalizarlas según las necesidades rápidas de tu proyecto editando el archivo [`GOLDEN_RULES.md`](GOLDEN_RULES.md). Las reglas por defecto son:
 
 1. **No hacer commits sin permiso**: Siempre solicita permiso explícito al usuario antes de ejecutar `git commit`.
-2. **No hacer modificaciones directas en ramas principales**: No edites código, ni hagas commits o push directamente a `main`/`master`. Las modificaciones SOLO están permitidas mediante Merges o Pull Requests.
+2. **No hacer modificaciones directas en ramas principales**: No edites código, ni hagas commits o push directamente a `main`/`master`. Las modificaciones SOLO están permitidas mediante Merges o Pull Requests. Si se solicitan cambios en una rama principal, la IA debe negarse y pedir al usuario que solicite la creación de una nueva rama.
 3. **No hacer merges sin permiso**: No autoejecutes `git merge` o resuelvas conflictos sin autorización explícita.
 4. **Documentar stashes de ramas**: Si guardas cambios en stash (`git stash`), DEBE ser documentado (ej. en `HISTORY.md`).
 5. **No reescribir la historia**: Nunca reescribas el historial del proyecto (nada de `push --force`, `amend`, o `rebase` en ramas compartidas).

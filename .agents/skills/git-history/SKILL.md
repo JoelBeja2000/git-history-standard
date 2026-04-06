@@ -45,7 +45,7 @@ This skill enables the agent to maintain a high-quality, professional history fo
 
 ## Operating Procedures
 - **Pre-Flight Check (MANDATORY)**: 
-  1. **Check Git Environment**: You MUST run `git branch --show-current` BEFORE reading or touching any files. If you are on `main` or `master`, you MUST switch to a feature branch using `git checkout -b` or ask the user. NEVER edit files directly on main branches.
+  1. **Check Git Environment**: You MUST run `git branch --show-current` BEFORE reading or touching any files. If you are on `main` or `master` and changes are requested, do NOT make them. You MUST ask the user to indicate that a new branch should be created. NEVER edit files directly on main branches.
   2. **Verify History**: Check for `HISTORY.md`, `BUGS.md`, and `.vectors/` index.
 - **Search Strategy**: Use GHS for chronology and Vector Search for technical implementation context.
 - **Post-task**: Update the history files with new work.

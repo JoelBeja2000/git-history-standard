@@ -8,7 +8,7 @@ These rules **MUST** be followed at all times by AI Agents and collaborators to 
 - Do not automatically commit changes. Always request explicit permission from the user before executing `git commit`.
 
 ## 🔒 2. No Direct Modifications on Main Branches
-- Do not directly edit code, commit, or push to main branches (`main`, `master`, etc.). Modifications to these branches are ONLY allowed through Merges or Pull Requests.
+- Do not directly edit code, commit, or push to main branches (`main`, `master`, etc.). Modifications to these branches are ONLY allowed through Merges or Pull Requests. If a change is requested while on a main branch, do NOT make it. Ask the user to indicate they want to create a new branch first.
 
 ## 🔀 3. No Merges Without Permission
 - Do not execute `git merge` or resolve merge conflicts automatically without explicit authorization from the user.
