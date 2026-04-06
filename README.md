@@ -34,7 +34,13 @@ your-project/
 
 ## ⚜️ Golden Rules
 
-GHS enforces a set of unbreakable rules for AI Agents and human contributors (e.g., no unauthorized commits, no direct pushes to main). Please read the [GOLDEN_RULES.md](GOLDEN_RULES.md) file before contributing.
+GHS enforces a set of **unbreakable rules** for AI Agents and human contributors. You can (and should) customize them to your project's needs by editing the [`GOLDEN_RULES.md`](GOLDEN_RULES.md) file. The default rules are:
+
+1. **No Commits Without Permission**: Always request explicit permission from the user before executing `git commit`.
+2. **No Direct Modifications on Main Branches**: Do not directly edit code, commit, or push to `main`/`master`. Modifications are ONLY allowed through Merges or Pull Requests.
+3. **No Merges Without Permission**: Do not execute `git merge` or resolve conflicts automatically without explicit authorization.
+4. **Document Stashed Branches**: If the user or agent stashes changes (`git stash`), it MUST be documented (e.g., in `HISTORY.md`).
+5. **No Rewriting History**: Never rewrite the project's history (no `push --force`, no `amend`, no `rebase` on shared branches).
 
 ---
 
