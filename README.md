@@ -42,6 +42,9 @@ GHS enforces a set of **unbreakable rules** for AI Agents and human contributors
 4. **Document Stashed Branches**: If the user or agent stashes changes (`git stash`), it MUST be documented (e.g., in `HISTORY.md`).
 5. **No Rewriting History**: Never rewrite the project's history (no `push --force`, no `amend`, no `rebase` on shared branches).
 
+### 🤖 Git Hooks vs System Prompts
+Traditional Git Hooks (Pre-commit / Pre-push) protect the repository from bad commits, but they **do not prevent an AI from modifying files directly on your active workspace**. To truly control an AI agent, you must control its context. That is why GHS includes `.cursorrules` and `.gemini_rules` to enforce an environment verification (Pre-Flight Check) *before* the AI uses any file-writing tools.
+
 ---
 
 ## 🔒 Security & Privacy

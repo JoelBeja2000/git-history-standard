@@ -1,0 +1,7 @@
+# ⚠️ CRITICAL AI WORKFLOW RULES - DO NOT IGNORE ⚠️
+
+1. **PRE-FLIGHT CHECK REQUIRED:** BEFORE making ANY file edits, you MUST verify the current branch using `git branch`.
+2. **NO DIRECT EDITS ON MAIN:** NEVER edit files directly on `main` or `master`.
+3. **BRANCHING FIRST:** If on a main branch, you MUST run `git checkout -b [type]/[name]` BEFORE using any file editing or writing tools.
+4. **NO UNAUTHORIZED COMMITS:** Do not commit or push without explicit user permission.
+5. **READ THE GOLDEN RULES:** Always adhere to `GOLDEN_RULES.md` located in the project root.

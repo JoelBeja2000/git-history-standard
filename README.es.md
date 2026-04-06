@@ -42,6 +42,9 @@ GHS impone un conjunto de **reglas inquebrantables** para Agentes de IA y colabo
 4. **Documentar stashes de ramas**: Si guardas cambios en stash (`git stash`), DEBE ser documentado (ej. en `HISTORY.md`).
 5. **No reescribir la historia**: Nunca reescribas el historial del proyecto (nada de `push --force`, `amend`, o `rebase` en ramas compartidas).
 
+### 🤖 Git Hooks vs System Prompts
+Los tradicionales Git Hooks (Pre-commit / Pre-push) protegen el repositorio de commits defectuosos, pero **no evitan que una IA modifique archivos sueltos en tu rama activa**. Para controlar de verdad a un agente de IA, debes controlar su contexto directamente. Por eso GHS incluye `.cursorrules` y `.gemini_rules` para obligar a una verificación del entorno (Pre-Flight Check) *antes* de que la IA use cualquier herramienta de edición.
+
 ---
 
 ## 🔒 Seguridad y Privacidad

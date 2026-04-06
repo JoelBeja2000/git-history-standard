@@ -44,8 +44,8 @@ This skill enables the agent to maintain a high-quality, professional history fo
 5.  **Semantic Context (Vector RAG)**: (Level 2) Support codebase indexing using vector databases to provide instant semantic search.
 
 ## Operating Procedures
-- **Pre-task**: 
-  1. **Check Git Branch**: Run `git branch --show-current` to identify the current environment. 
+- **Pre-Flight Check (MANDATORY)**: 
+  1. **Check Git Environment**: You MUST run `git branch --show-current` BEFORE reading or touching any files. If you are on `main` or `master`, you MUST switch to a feature branch using `git checkout -b` or ask the user. NEVER edit files directly on main branches.
   2. **Verify History**: Check for `HISTORY.md`, `BUGS.md`, and `.vectors/` index.
 - **Search Strategy**: Use GHS for chronology and Vector Search for technical implementation context.
 - **Post-task**: Update the history files with new work.
