@@ -32,6 +32,12 @@ your-project/
 
 ---
 
+## ⚜️ Golden Rules
+
+GHS enforces a set of unbreakable rules for AI Agents and human contributors (e.g., no unauthorized commits, no direct pushes to main). Please read the [GOLDEN_RULES.md](GOLDEN_RULES.md) file before contributing.
+
+---
+
 ## 🔒 Security & Privacy
 
 First things first: GHS generates a local database (`.ai-index/`) that contains fragments of your code in plain text. **It should never be pushed to a public repository.**

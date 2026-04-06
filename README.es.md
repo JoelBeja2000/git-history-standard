@@ -32,6 +32,12 @@ tu-proyecto/
 
 ---
 
+## ⚜️ Reglas de Oro
+
+GHS impone un conjunto de reglas inquebrantables para Agentes de IA y colaboradores humanos (ej. no commits sin autorización, no pushes directos a main). Por favor, lee el archivo [GOLDEN_RULES.md](GOLDEN_RULES.md) antes de contribuir.
+
+---
+
 ## 🔒 Seguridad y Privacidad
 
 Antes de nada: GHS genera una base de datos local (`.ai-index/`) que contiene fragmentos de tu código en texto plano. **Nunca debe subirse a un repositorio público.**
