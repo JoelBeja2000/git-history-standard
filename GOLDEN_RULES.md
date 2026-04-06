@@ -15,3 +15,6 @@ These rules **MUST** be followed at all times by AI Agents and collaborators to 
 
 ## 📦 4. Document Stashed Branches
 - If the user or the agent stashes changes (`git stash`), it MUST be documented (e.g., in `HISTORY.md`) detailing what was stashed and why.
+
+## 📜 5. No Rewriting History
+- Never rewrite the project's history (e.g., no `git push --force`, no `git commit --amend`, or `git rebase` on shared branches). A clean and chronological project history must be preserved for best practices and auditing.
