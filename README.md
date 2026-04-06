@@ -15,6 +15,9 @@ GHS adds these files to your project root:
 
 ```
 your-project/
+├── .cursorrules                         ← Strict AI workflow rules
+├── .gemini_rules                        ← Strict AI workflow rules
+├── GOLDEN_RULES.md                      ← Unbreakable project rules
 ├── .agents/skills/git-history/SKILL.md  ← Central config (YAML)
 ├── HISTORY.md                           ← Structured history (table)
 ├── BUGS.md                              ← Known bugs registry
@@ -169,6 +172,9 @@ For teams, you can set up a **GitHub Action** that runs a script after each push
 git clone https://github.com/JoelBeja2000/git-history-standard.git
 
 # 2. Copy the structure to your project
+cp git-history-standard/.cursorrules /path/to/your/project/
+cp git-history-standard/.gemini_rules /path/to/your/project/
+cp git-history-standard/GOLDEN_RULES.md /path/to/your/project/
 cp -r git-history-standard/.agents /path/to/your/project/
 cp git-history-standard/HISTORY.md /path/to/your/project/
 cp git-history-standard/BUGS.md /path/to/your/project/

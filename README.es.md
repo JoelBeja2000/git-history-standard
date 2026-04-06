@@ -15,6 +15,9 @@ GHS añade estos archivos a la raíz de tu proyecto:
 
 ```
 tu-proyecto/
+├── .cursorrules                         ← Reglas estrictas para IA
+├── .gemini_rules                        ← Reglas estrictas para IA
+├── GOLDEN_RULES.md                      ← Reglas inquebrantables del proyecto
 ├── .agents/skills/git-history/SKILL.md  ← Configuración central (YAML)
 ├── HISTORY.md                           ← Historial estructurado (tabla)
 ├── BUGS.md                              ← Registro de errores conocidos
@@ -169,6 +172,9 @@ Para equipos, puedes configurar un **GitHub Action** que ejecute un script tras 
 git clone https://github.com/JoelBeja2000/git-history-standard.git
 
 # 2. Copia la estructura a tu proyecto
+cp git-history-standard/.cursorrules /ruta/a/tu/proyecto/
+cp git-history-standard/.gemini_rules /ruta/a/tu/proyecto/
+cp git-history-standard/GOLDEN_RULES.md /ruta/a/tu/proyecto/
 cp -r git-history-standard/.agents /ruta/a/tu/proyecto/
 cp git-history-standard/HISTORY.md /ruta/a/tu/proyecto/
 cp git-history-standard/BUGS.md /ruta/a/tu/proyecto/
