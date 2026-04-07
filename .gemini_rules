@@ -11,11 +11,38 @@
 -e 
 
 
+
+
 ### 🧩 MODULAR RULES (AUTO-SYNCED by GHS)
 ---
 
-#### 📝 Rule [/Users/mac/Documents/GIT/git-history-standard/.agents/rules]: rule.md
+#### 📝 Rule [/Users/mac/Documents/GIT/git-history-standard/.agents/rules]: ai-integrity.md
 
+# ⚜️ AI Integrity Rules
 
-#### 📝 Rule [/Users/mac/Documents/GIT/git-history-standard/../.agents/rules]: rule.md
+- **Pre-Flight Check**: Always verify the current git branch before making any file modifications.
+- **Main Branch Protection**: NEVER commit or push directly to `master` or `main`. All changes must go through feature branches.
+- **No Force Push**: Prohibit `push --force` or history rewriting in shared development branches.
+- **Document Stashes**: Any `git stash` operation must be noted in `HISTORY.md` to prevent context loss.
+- **Permission**: Explicitly ask for user approval before making a commit.
 
+#### 📝 Rule [/Users/mac/Documents/GIT/git-history-standard/.agents/rules]: ghs-protocol.md
+
+# 📜 GHS Protocol Rules
+
+- **Bilingual Documentation**: `HISTORY.md` and `BUGS.md` must be maintained in English and Spanish as per configuration.
+- **Table Integrity**: Ensure all tables in `HISTORY.md` and `BUGS.md` preserve their structure (Commit, Author, Description, Details).
+- **Trigger Tags**:
+  - Use `#ai-history` for technical summaries.
+  - Use `#ai-bug` for error registry.
+  - Use `#ai-catchup` for batch processing.
+- **Semantic Details**: Always include specific technical details (filenames, functions modified) in the "Technical Details" column.
+
+#### 📝 Rule [/Users/mac/Documents/GIT/git-history-standard/.agents/rules]: github-integration.md
+
+# 🐙 GitHub Integration Rules
+
+- **Trigger**: Use `#ai-sync` to start a full synchronization.
+- **Bugs to Issues**: Every entry in `BUGS.md` should have a corresponding GitHub Issue.
+- **Dev Status Issue**: Maintain a single "GHS Development Status" issue (Issue #1 by default) updated with active branches and stashes.
+- **Safety**: Never upload local vector stores (`.ai-index/`) or local environment variables (`.env`) to GitHub.
