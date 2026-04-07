@@ -34,27 +34,35 @@ class GitHubSync:
         title = f"GHS: {repo_name}"
         try:
             # Check for existing project
-            print(f"Checking for Project: {title}...")
             result = subprocess.run(['gh', 'project', 'list', '--owner', owner, '--format', 'json'], capture_output=True, text=True)
             if result.returncode == 0:
                 projects = json.loads(result.stdout)
                 for p in projects:
                     if p['title'] == title:
+                        print(f"Found Project: {title} (#{p['number']})")
+                        self.link_to_repo(p['number'], owner, repo_name)
                         return p['number']
                 
             # Try to create project
             print(f"Creating new Project V2: {title}...")
             result = subprocess.run(['gh', 'project', 'create', '--owner', owner, '--title', title], capture_output=True, text=True)
             if result.returncode == 0:
-                # Get the number of the newly created project
                 result = subprocess.run(['gh', 'project', 'list', '--owner', owner, '--format', 'json'], capture_output=True, text=True)
                 projects = json.loads(result.stdout)
                 for p in projects:
                     if p['title'] == title:
+                        print(f"Project Created: https://github.com/users/{owner}/projects/{p['number']}")
+                        self.link_to_repo(p['number'], owner, repo_name)
                         return p['number']
         except Exception as e:
             print(f"Warning: Could not manage Project V2 (Check gh auth scope write:project): {e}")
         return None
+
+    def link_to_repo(self, project_number, owner, repo_name):
+        try:
+            subprocess.run(['gh', 'project', 'link', str(project_number), '--owner', owner, '--repo', repo_name], capture_output=True)
+        except:
+            pass
 
     def add_to_project(self, project_number, owner, issue_url):
         try:
