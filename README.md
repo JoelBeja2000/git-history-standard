@@ -255,6 +255,24 @@ bash tools/sync_rules.sh
 
 ---
 
+## ⚙️ Configuration & Toggles
+
+GHS behavior can be customized by editing the configuration in:
+`[.agents/skills/git-history/SKILL.md](file:///Users/mac/Documents/GIT/git-history-standard/.agents/skills/git-history/SKILL.md)`
+
+### 🐙 GitHub Synchronization
+You can enable or disable the automated synchronization with GitHub Issues and Projects:
+
+```yaml
+github:
+  enabled: true # Set to false to disable GitHub synchronization
+```
+
+When enabled, the `#ai-sync` tag (or running `python3 tools/github_sync.py`) will:
+1. Sync `BUGS.md` with GitHub Issues.
+2. Link issues to a visual Board (Project V2).
+3. Post the current development status.
+
 ---
 
 ## 🧠 Semantic Search (Levels)

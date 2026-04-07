@@ -1,153 +1,143 @@
-import os
 import subprocess
-import re
+import json
 import sys
+import os
+import re
+from datetime import datetime
 
-def run_command(command):
-    try:
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
-        return result.stdout.strip()
-    except subprocess.CalledProcessError as e:
-        print(f"Error executing command: {' '.join(command)}")
-        print(f"Error message: {e.stderr}")
+class GitHubSync:
+    def __init__(self):
+        self.skill_file = ".agents/skills/git-history/SKILL.md"
+
+    def is_enabled(self):
+        try:
+            with open(self.skill_file, "r") as f:
+                content = f.read()
+                match = re.search(r"github:[\s\S]*?enabled:\s*(true|false)", content, re.IGNORECASE)
+                if match:
+                    return match.group(1).lower() == "true"
+        except:
+            pass
+        return True
+
+    def get_repo_info(self):
+        try:
+            result = subprocess.run(['gh', 'repo', 'view', '--json', 'owner,name'], capture_output=True, text=True)
+            if result.returncode == 0:
+                data = json.loads(result.stdout)
+                return data['owner']['login'], data['name']
+        except:
+            pass
+        return None, None
+
+    def ensure_project(self, owner, repo_name):
+        title = f"GHS: {repo_name}"
+        try:
+            # Check for existing project
+            print(f"Checking for Project: {title}...")
+            result = subprocess.run(['gh', 'project', 'list', '--owner', owner, '--format', 'json'], capture_output=True, text=True)
+            if result.returncode == 0:
+                projects = json.loads(result.stdout)
+                for p in projects:
+                    if p['title'] == title:
+                        return p['number']
+                
+            # Try to create project
+            print(f"Creating new Project V2: {title}...")
+            result = subprocess.run(['gh', 'project', 'create', '--owner', owner, '--title', title], capture_output=True, text=True)
+            if result.returncode == 0:
+                # Get the number of the newly created project
+                result = subprocess.run(['gh', 'project', 'list', '--owner', owner, '--format', 'json'], capture_output=True, text=True)
+                projects = json.loads(result.stdout)
+                for p in projects:
+                    if p['title'] == title:
+                        return p['number']
+        except Exception as e:
+            print(f"Warning: Could not manage Project V2 (Check gh auth scope write:project): {e}")
         return None
 
-def get_git_branches():
-    branches = run_command(["git", "branch", "-a"])
-    if not branches:
-        return []
-    return [b.strip() for b in branches.split("\n")]
+    def add_to_project(self, project_number, owner, issue_url):
+        try:
+            print(f"Adding to Project #{project_number}...")
+            subprocess.run(['gh', 'project', 'item-add', str(project_number), '--owner', owner, '--url', issue_url], capture_output=True)
+        except:
+            pass
 
-def get_git_stash():
-    stash_list = run_command(["git", "stash", "list"])
-    if not stash_list:
-        return []
-    return [s.strip() for s in stash_list.split("\n")]
+    def parse_bugs(self):
+        bugs = []
+        try:
+            with open("BUGS.md", "r") as f:
+                content = f.read()
+                # Parse markdown table
+                lines = content.split('\n')
+                for line in lines:
+                    if '|' in line and 'Bug ID' not in line and '---' not in line:
+                        parts = [p.strip() for p in line.split('|')]
+                        if len(parts) >= 5:
+                            bugs.append({
+                                'id': parts[1],
+                                'author': parts[2],
+                                'description': parts[3],
+                                'fix_details': parts[4]
+                            })
+        except:
+            pass
+        return bugs
 
-def parse_bugs(bugs_file):
-    if not os.path.exists(bugs_file):
-        return []
-    
-    with open(bugs_file, "r") as f:
-        content = f.read()
-    
-    # Simple regex to extract table rows from BUGS.md
-    rows = re.findall(r"\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|\s*([^|]+)\s*\|\s*([^|]*)\s*\|", content)
-    
-    bugs = []
-    for row in rows:
-        bug_id = row[0].strip()
-        # Skip header and separator rows
-        if "Bug ID" in bug_id or re.match(r"^:?-+:?$", bug_id):
-            continue
-        
-        bugs.append({
-            "id": bug_id,
-            "author": row[1].strip(),
-            "description": row[2].strip(),
-            "details": row[3].strip()
-        })
-    return bugs
+    def get_issue_number(self, title):
+        try:
+            result = subprocess.run(['gh', 'issue', 'list', '--search', f'"{title}" in:title', '--json', 'number'], capture_output=True, text=True)
+            if result.returncode == 0:
+                issues = json.loads(result.stdout)
+                if issues:
+                    return issues[0]['number']
+        except:
+            pass
+        return None
 
-def sync_bugs_with_github(bugs):
-    if not bugs:
-        print("No bugs found to sync.")
-        return
-    print("Syncing bugs with GitHub Issues...")
-    for bug in bugs:
-        # Check if issue already exists
-        search_query = f"{bug['id']} in:title"
-        existing_issues = run_command(["gh", "issue", "list", "--search", search_query, "--json", "number,title"])
-        
-        if existing_issues and existing_issues != "[]":
-            # Update existing issue if needed (TBD)
-            print(f"Issue for bug {bug['id']} already exists.")
-            continue
-        
-        # Create new issue
-        title = f"[BUG] {bug['id']}: {bug['description']}"
-        body = f"**Author:** {bug['author']}\n\n**Details:** {bug['details']}\n\n*Automatically synced by GHS.*"
-        
-        print(f"Creating issue: {title}")
-        run_command(["gh", "issue", "create", "--title", title, "--body", body, "--label", "bug"])
+    def sync(self, bugs_only=False, dev_only=False):
+        if not self.is_enabled():
+            print("GitHub Sync is disabled.")
+            return
 
-def sync_dev_status():
-    print("Syncing development status...")
-    branches = get_git_branches()
-    stash = get_git_stash()
-    
-    status_body = "## 🌿 Development Status (GHS)\n\n"
-    
-    status_body += "### Branches\n"
-    for b in branches:
-        if b.startswith("*"):
-            status_body += f"- **{b}** (Current)\n"
-        else:
-            status_body += f"- {b}\n"
-    
-    status_body += "\n### Stash\n"
-    if not stash:
-        status_body += "No stashed changes.\n"
-    for s in stash:
-        status_body += f"- {s}\n"
-    
-    status_body += "\n*Updated automatically by GHS.*"
-    
-    # Check if a Dev Status issue exists
-    search_query = "GHS Development Status in:title"
-    existing_status = run_command(["gh", "issue", "list", "--search", search_query, "--json", "number,title"])
-    
-    if existing_status and existing_status != "[]":
-        import json
-        issue_num = json.loads(existing_status)[0]["number"]
-        print(f"Updating existing status issue #{issue_num}...")
-        run_command(["gh", "issue", "edit", str(issue_num), "--body", status_body])
-    else:
-        print("Creating new status issue...")
-        run_command(["gh", "issue", "create", "--title", "GHS Development Status", "--body", status_body, "--label", "documentation"])
+        owner, repo_name = self.get_repo_info()
+        project_number = self.ensure_project(owner, repo_name) if owner else None
 
-def is_github_sync_enabled():
-    skill_file = ".agents/skills/git-history/SKILL.md"
-    if not os.path.exists(skill_file):
-        # Fallback to current dir if not in standard path
-        skill_file = "SKILL.md"
-        if not os.path.exists(skill_file):
-            return True # Default to True if file missing
-    
-    try:
-        with open(skill_file, "r") as f:
-            content = f.read()
-            # More flexible search for enabled status
-            match = re.search(r"github:[\s\S]*?enabled:\s*(true|false)", content, re.IGNORECASE)
-            if match:
-                return match.group(1).lower() == "true"
-    except Exception as e:
-        print(f"Warning: Could not parse SKILL.md for config: {e}")
-    
-    return True # Default to True
+        if not dev_only:
+            print("Syncing Bugs...")
+            bugs = self.parse_bugs()
+            for bug in bugs:
+                title = f"BUG: {bug['description'][:50]}"
+                body = f"### Description\n{bug['description']}\n\n### Fix Details\n{bug['fix_details'] or 'Pending'}\n\n---\n*Synced by GHS*"
+                
+                issue_num = self.get_issue_number(title)
+                if issue_num:
+                    subprocess.run(['gh', 'issue', 'edit', str(issue_num), '--body', body])
+                else:
+                    print(f"Creating issue: {title}")
+                    result = subprocess.run(['gh', 'issue', 'create', '--title', title, '--body', body, '--label', 'bug'], capture_output=True, text=True)
+                    if result.returncode == 0 and project_number:
+                        issue_url = result.stdout.strip()
+                        self.add_to_project(project_number, owner, issue_url)
 
-def main():
-    if not is_github_sync_enabled():
-        print("GitHub synchronization is disabled in SKILL.md.")
-        return
-
-    # Check if gh is authenticated
-    auth_status = run_command(["gh", "auth", "status"])
-    if not auth_status or "Logged in" not in auth_status:
-        print("Error: GitHub CLI (gh) is not authenticated. Please run 'gh auth login'.")
-        # return # Proceed anyway for now or fail? 
-
-    bugs_file = "BUGS.md"
-    bugs = parse_bugs(bugs_file)
-    
-    if "--bugs" in sys.argv:
-        sync_bugs_with_github(bugs)
-    elif "--dev" in sys.argv:
-        sync_dev_status()
-    else:
-        # Default behavior
-        sync_bugs_with_github(bugs)
-        sync_dev_status()
+        if not bugs_only:
+            print("Syncing Dev Status...")
+            title = "GHS Development Status"
+            branches = subprocess.check_output(['git', 'branch', '-a'], text=True)
+            stashes = subprocess.check_output(['git', 'stash', 'list'], text=True)
+            body = f"## Active Branches\n```\n{branches}\n```\n\n## Stashed Changes\n```\n{stashes}\n```\n\n---\n*Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*"
+            
+            issue_num = self.get_issue_number(title)
+            if issue_num:
+                subprocess.run(['gh', 'issue', 'edit', str(issue_num), '--body', body])
+            else:
+                result = subprocess.run(['gh', 'issue', 'create', '--title', title, '--body', body, '--label', 'ghs-status'], capture_output=True, text=True)
+                if result.returncode == 0 and project_number:
+                    issue_url = result.stdout.strip()
+                    self.add_to_project(project_number, owner, issue_url)
 
 if __name__ == "__main__":
-    main()
+    sync = GitHubSync()
+    bugs_opt = "--bugs" in sys.argv
+    dev_opt = "--dev" in sys.argv
+    sync.sync(bugs_only=bugs_opt, dev_only=dev_opt)
