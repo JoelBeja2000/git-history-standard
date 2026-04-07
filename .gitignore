@@ -20,4 +20,3 @@ qdrant_data/
 logs/
 *.log
 tmp/
-ghs_context_for_notebooklm.txt

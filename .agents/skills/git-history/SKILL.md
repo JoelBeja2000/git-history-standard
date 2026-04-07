@@ -24,6 +24,8 @@ config:
     url: "http://localhost:6333"
     collection_history: "ghs_history"
     collection_code: "ghs_code"
+  github:
+    enabled: true # Set to false to disable GitHub Issues/Projects synchronization
 
 # AI Vision Protocol
 # When an agent encounters a screenshot path in HISTORY.md or BUGS.md:
@@ -41,15 +43,19 @@ This skill enables the agent to maintain a high-quality, professional history fo
 2.  **Multi-language Support**: All documentation and commit messages must be provided in the user's preferred language(s) (e.g., English, Spanish, French, etc.).
 3.  **Visual Documentation**: Integrate and caption screenshots in the `README.md` and `HISTORY.md`.
 4.  **Issue Tracking**: Maintain a `BUGS.md` or a "Bug Registry" section to prevent regressions.
-5.  **Semantic Context (Vector RAG)**: (Level 2) Support codebase indexing using vector databases to provide instant semantic search.
+5.  **GitHub Synchronization**: Synchronize `BUGS.md` with GitHub Issues and maintain a "Development Status" (branches, stash) on the GitHub repository using `#ai-sync`.
+6.  **Rule Management**: Maintain modular AI rules in `.agents/rules/` and synchronize them with root `.cursorrules`/`.gemini_rules` using `tools/sync_rules.sh`.
+7.  **Semantic Context (Vector RAG)**: (Level 2) Support codebase indexing using vector databases to provide instant semantic search.
 
 ## Operating Procedures
 - **Pre-Flight Check (MANDATORY)**: 
   1. **Check Git Environment**: You MUST run `git branch --show-current` BEFORE reading or touching any files. If you are on `main` or `master` and changes are requested, do NOT make them. You MUST ask the user to indicate that a new branch should be created. NEVER edit files directly on main branches.
   2. **Verify History**: Check for `HISTORY.md`, `BUGS.md`, and `.vectors/` index.
 - **Search Strategy**: Use GHS for chronology and Vector Search for technical implementation context.
-- **Post-task**: Update the history files with new work.
+- **Post-task**: Update the history files with new work. Execute synchronization if applicable using `python3 tools/github_sync.py`.
 - **Alerting**: If the history becomes "stale" (more than 3-5 commits without update), notify the user and offer an automatic update.
+- **Synchronization**: At the end of a milestone or when a bug is registered, use `#ai-sync` to push updates to GitHub Issues/Projects.
+- **Rule Sync**: After adding or modifying rules in `.agents/rules/`, execute `bash tools/sync_rules.sh` to update IDE-visible files.
 
 ## File Templates
 - `HISTORY.md`: [Execution Summary, Branch Map, Full Commit Log].

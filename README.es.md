@@ -23,10 +23,15 @@ tu-proyecto/
 ├── BUGS.md                              ← Registro de errores conocidos
 ├── tools/
 │   ├── indexer.py                       ← Indexador semántico (ChromaDB/Qdrant)
+│   ├── github_sync.py                   ← Sincronización con GitHub (Issues/Boards)
+│   ├── sync_rules.sh                    ← Sincronización de reglas modulares
 │   ├── search.py                        ← Búsqueda por lenguaje natural
 │   └── setup.sh                         ← Instalación del entorno Python
+├── .agents/
+│   ├── rules/                           ← Reglas modulares de IA
+│   ├── skills/git-history/SKILL.md      ← Configuración central
+│   └── workflows/                       ← Workflows automatizados (sync-rules, sync-github)
 ├── assets/screenshots/                  ← Capturas visuales (opcional)
-├── docker-compose.yml                   ← Para Qdrant (Nivel 3)
 └── .gitignore                           ← Pre-configurado para excluir datos sensibles
 ```
 
@@ -122,6 +127,7 @@ El núcleo del estándar son **Etiquetas de Activación** en tus mensajes de com
 - **`#ai-history`** — La IA actualiza `HISTORY.md` con un resumen técnico del cambio.
 - **`#ai-bug`** — La IA registra el error y su solución en `BUGS.md`.
 - **`#ai-catchup`** — La IA escanea todos los commits no documentados y genera un resumen en lote.
+- **`#ai-sync`** — La IA sincroniza `BUGS.md` con GitHub Issues, actualiza el estado de desarrollo (ramas/stash) y consolida las reglas modulares en la raíz.
 
 > [!IMPORTANT]
 > **¿Has olvidado poner etiquetas?** No pasa nada. El tag `#ai-catchup` existe precisamente para ponerse al día con commits pasados sin documentar. Es la red de seguridad del sistema.
@@ -219,6 +225,35 @@ config:
   vector_store:
     provider: "chroma"  # Opciones: "chroma" (local) o "qdrant" (servidor)
 ```
+
+---
+
+## 🔄 Sincronización y Reglas Modulares (NUEVO)
+
+GHS ahora incluye capacidades avanzadas para conectar tu repositorio local con la nube de GitHub y gestionar reglas de IA de forma profesional.
+
+### 🐙 Sincronización con GitHub
+GHS utiliza la CLI `gh` para mantener tu repositorio vivo visualmente:
+- **GitHub Issues**: Crea y actualiza issues automáticamente a partir de tu `BUGS.md`.
+- **Estado de Desarrollo**: Genera una issue dinámica de "GHS Development Status" que muestra todas las ramas activas, su estado y los stashes actuales.
+
+```bash
+# Ejecución manual:
+python3 tools/github_sync.py
+```
+
+### 🧩 Armonización de Reglas (Modular Rules)
+Resuelve el conflicto entre herramientas de IA globales (como Antigravity) e IDEs locales (como Cursor):
+1. **Local + Global**: GHS escanea `.agents/rules/` tanto en tu proyecto como en la carpeta padre.
+2. **Consolidación**: El script `sync_rules.sh` combina todas las reglas y las inyecta en `.cursorrules` y `.gemini_rules` de la raíz.
+3. **Visibilidad**: Esto garantiza que tu IDE siempre "vea" las reglas correctas, sin importar dónde se crearon.
+
+```bash
+# Consolidar reglas:
+bash tools/sync_rules.sh
+```
+
+---
 
 ---
 

@@ -8,7 +8,7 @@ services:
       - "6333:6333"
       - "6334:6334"
     volumes:
-      - ./ .ai-index/qdrant_data:/qdrant/storage:z
+      - ./.ai-index/qdrant_data:/qdrant/storage:z
     restart: unless-stopped
 
 networks:

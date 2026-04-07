@@ -37,14 +37,5 @@ If you are working on a branch, ask your AI:
 
 ---
 
-## ⚡ Bonus: NotebookLM Integration
-If you want to create a custom **NotebookLM** (Google) with your project knowledge, we've included an export tool:
-
-1. Run the script: `python3 tools/export_notebooklm.py`
-2. This creates `ghs_context_for_notebooklm.txt`.
-3. Drag and drop this file into a new NotebookLM source panel.
-
-Now you can chat with your project or generate a deep-dive podcast about your code.
-
 > [!TIP]
 > **The Key Takeaway**: Treat your AI as an infrastructure engineer. You don't need to write terminal commands anymore. Just explain the lifecycle event you want to trigger (create repo, save work, open PR), and let the agent handle the Git/GitHub syntax.

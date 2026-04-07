@@ -23,7 +23,12 @@ description: How to maintain the Project History (HISTORY.md) and Bug Registry.
 4.  **Verify Visuals**:
     - Check if new UI screenshots need to be added to the `assets/screenshots/` folder and linked in the `HISTORY.md` using Markdown syntax: `![Alt Text](path)`.
 
-5.  **Tag Replacement & Sync**:
+5.  **GitHub & Rule Synchronization**:
+    - **Bugs**: If `BUGS.md` was updated, synchronize with GitHub using `python3 tools/github_sync.py --bugs`.
+    - **Rules**: If rules were updated, synchronize with `bash tools/sync_rules.sh`.
+    - **Dev Status**: Periodically update the GitHub Dev Status issue with `python3 tools/github_sync.py --dev`.
+
+6.  **Tag Replacement & Sync**:
     - **Replace Tag**: If tags were found, replace them with `[documented]` in the commit message using `git commit --amend` to keep the history clean.
     - **Sync**: `git push origin [current-branch] --force-with-lease` (to update the commit message on GitHub).
     - **Confirm**: Notify the user that the synchronization is complete and the project context is up to date.

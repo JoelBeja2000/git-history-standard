@@ -23,10 +23,15 @@ your-project/
 ├── BUGS.md                              ← Known bugs registry
 ├── tools/
 │   ├── indexer.py                       ← Semantic indexer (ChromaDB/Qdrant)
+│   ├── github_sync.py                   ← GitHub Sync (Issues/Boards)
+│   ├── sync_rules.sh                    ← Modular Rules Sync
 │   ├── search.py                        ← Natural language search
 │   └── setup.sh                         ← Python environment setup
+├── .agents/
+│   ├── rules/                           ← Modular AI Rules
+│   ├── skills/git-history/SKILL.md      ← Central config
+│   └── workflows/                       ← Automated workflows (sync-rules, sync-github)
 ├── assets/screenshots/                  ← Visual captures (optional)
-├── docker-compose.yml                   ← For Qdrant (Level 3)
 └── .gitignore                           ← Pre-configured to exclude sensitive data
 ```
 
@@ -122,6 +127,7 @@ The core of the standard is **Trigger Tags** in your commit messages:
 - **`#ai-history`** — AI updates `HISTORY.md` with a technical summary of the change.
 - **`#ai-bug`** — AI registers the bug and its fix in `BUGS.md`.
 - **`#ai-catchup`** — AI scans all undocumented commits and generates a batch summary.
+- **`#ai-sync`** — AI synchronizes `BUGS.md` with GitHub Issues, updates dev status (branches/stash), and consolidates modular rules in the root.
 
 > [!IMPORTANT]
 > **Forgot to add tags?** No problem. The `#ai-catchup` tag exists precisely to catch up with previously undocumented commits. It's the system's safety net.
@@ -219,6 +225,35 @@ config:
   vector_store:
     provider: "chroma"  # Options: "chroma" (local) or "qdrant" (server)
 ```
+
+---
+
+## 🔄 Synchronization & Modular Rules (NEW)
+
+GHS now includes advanced capabilities to connect your local repository with GitHub and manage AI rules professionally.
+
+### 🐙 GitHub Synchronization
+GHS uses the `gh` CLI to keep your repository visually alive:
+- **GitHub Issues**: Automatically creates and updates issues from your `BUGS.md`.
+- **Dev Status**: Generates a dynamic "GHS Development Status" issue showing active branches, status, and current stashes.
+
+```bash
+# Manual execution:
+python3 tools/github_sync.py
+```
+
+### 🧩 Rule Harmonization (Modular Rules)
+Resolves the conflict between global AI tools (like Antigravity) and local IDEs (like Cursor):
+1. **Local + Global**: GHS scans `.agents/rules/` in both your project and the parent directory.
+2. **Consolidation**: The `sync_rules.sh` script combines all rules and injects them into root `.cursorrules` and `.gemini_rules`.
+3. **Visibility**: This ensures your IDE always "sees" the correct rules, regardless of where they were created.
+
+```bash
+# Consolidate rules:
+bash tools/sync_rules.sh
+```
+
+---
 
 ---
 
