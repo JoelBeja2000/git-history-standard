@@ -36,7 +36,8 @@ class GitHubSync:
             # Check for existing project
             result = subprocess.run(['gh', 'project', 'list', '--owner', owner, '--format', 'json'], capture_output=True, text=True)
             if result.returncode == 0:
-                projects = json.loads(result.stdout)
+                data = json.loads(result.stdout)
+                projects = data.get('projects', []) if isinstance(data, dict) else data
                 for p in projects:
                     if p['title'] == title:
                         print(f"Found Project: {title} (#{p['number']})")
@@ -48,7 +49,8 @@ class GitHubSync:
             result = subprocess.run(['gh', 'project', 'create', '--owner', owner, '--title', title], capture_output=True, text=True)
             if result.returncode == 0:
                 result = subprocess.run(['gh', 'project', 'list', '--owner', owner, '--format', 'json'], capture_output=True, text=True)
-                projects = json.loads(result.stdout)
+                data = json.loads(result.stdout)
+                projects = data.get('projects', []) if isinstance(data, dict) else data
                 for p in projects:
                     if p['title'] == title:
                         print(f"Project Created: https://github.com/users/{owner}/projects/{p['number']}")
