@@ -271,7 +271,12 @@ github:
 Cuando está activado, la etiqueta `#ai-sync` (o ejecutar `python3 tools/github_sync.py`) hará lo siguiente:
 1. Sincronizar `BUGS.md` con GitHub Issues.
 2. Vincular los issues a un tablero visual (Project V2).
-3. Publicar el estado actual del desarrollo.
+#### ⚠️ ¿Faltan permisos? (Importante)
+Si ves un error indicando que faltan permisos (`missing required scopes`), debes autorizar a la CLI para gestionar proyectos:
+
+```bash
+gh auth refresh -s project,read:project
+```
 
 ---
 

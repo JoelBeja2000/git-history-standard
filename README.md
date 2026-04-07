@@ -271,7 +271,12 @@ github:
 When enabled, the `#ai-sync` tag (or running `python3 tools/github_sync.py`) will:
 1. Sync `BUGS.md` with GitHub Issues.
 2. Link issues to a visual Board (Project V2).
-3. Post the current development status.
+#### ⚠️ Missing Scopes? (Important)
+If you see an error like `missing required scopes [read:project]`, you need to authorize the CLI to manage projects:
+
+```bash
+gh auth refresh -s project,read:project
+```
 
 ---
 
